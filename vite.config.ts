@@ -3,12 +3,14 @@ import { resolve } from 'path';
 
 export default defineConfig({
   root: 'demo',
+  base: '/mcp-components/',
   resolve: {
     alias: {
       '@mcp/ui-components': resolve(__dirname, 'src'),
     },
   },
   build: {
-    outDir: '../dist-demo',
+    outDir: '../dist-showcase',
+    emptyOutDir: true,
   },
 });
