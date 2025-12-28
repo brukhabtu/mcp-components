@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCP UI Components Demo</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, sans-serif; background: #f8fafc; color: #0f172a; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    h1 { margin-bottom: 0.5rem; }
+    .subtitle { color: #64748b; margin-bottom: 3rem; }
+    section { margin-bottom: 3rem; }
+    h2 { font-size: 1.25rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; }
+    .demo-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>MCP UI Components</h1>
+    <p class="subtitle">A composable Lit web components library for MCP UI</p>
+
+    <section>
+      <h2>Buttons</h2>
+      <div class="demo-row">
+        <mcp-button>Primary</mcp-button>
+        <mcp-button variant="secondary">Secondary</mcp-button>
+        <mcp-button variant="outline">Outline</mcp-button>
+        <mcp-button variant="ghost">Ghost</mcp-button>
+        <mcp-button variant="destructive">Destructive</mcp-button>
+      </div>
+      <div class="demo-row">
+        <mcp-button size="sm">Small</mcp-button>
+        <mcp-button size="md">Medium</mcp-button>
+        <mcp-button size="lg">Large</mcp-button>
+        <mcp-button loading>Loading</mcp-button>
+        <mcp-button disabled>Disabled</mcp-button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Inputs</h2>
+      <mcp-vstack gap="var(--mcp-space-4)" style="max-width: 400px;">
+        <mcp-input label="Email" placeholder="Enter your email" type="email"></mcp-input>
+        <mcp-input label="Password" type="password" placeholder="Enter password" helper="Min 8 characters"></mcp-input>
+        <mcp-input label="With Error" value="bad" error="This field has an error"></mcp-input>
+        <mcp-textarea label="Message" placeholder="Type here..." rows="3"></mcp-textarea>
+      </mcp-vstack>
+    </section>
+
+    <section>
+      <h2>Badges</h2>
+      <div class="demo-row">
+        <mcp-badge>Default</mcp-badge>
+        <mcp-badge variant="primary">Primary</mcp-badge>
+        <mcp-badge variant="success">Success</mcp-badge>
+        <mcp-badge variant="warning">Warning</mcp-badge>
+        <mcp-badge variant="error">Error</mcp-badge>
+      </div>
+      <div class="demo-row">
+        <mcp-badge variant="primary" outline>Outline</mcp-badge>
+        <mcp-badge variant="success" dot>With Dot</mcp-badge>
+      </div>
+    </section>
+
+    <section>
+      <h2>Cards</h2>
+      <mcp-grid columns="3" gap="var(--mcp-space-4)">
+        <mcp-card>
+          <span slot="header"><strong>Basic Card</strong></span>
+          <p style="margin: 0;">Basic card with header.</p>
+        </mcp-card>
+        <mcp-card elevated>
+          <span slot="header"><strong>Elevated</strong></span>
+          <p style="margin: 0;">Shadow effect card.</p>
+        </mcp-card>
+        <mcp-card interactive>
+          <span slot="header"><strong>Interactive</strong></span>
+          <p style="margin: 0;">Click me!</p>
+        </mcp-card>
+      </mcp-grid>
+    </section>
+
+    <section>
+      <h2>Alerts</h2>
+      <mcp-vstack gap="var(--mcp-space-3)">
+        <mcp-alert variant="info" title="Info">Informational message.</mcp-alert>
+        <mcp-alert variant="success" title="Success">Changes saved.</mcp-alert>
+        <mcp-alert variant="warning" title="Warning">Review required.</mcp-alert>
+        <mcp-alert variant="error" title="Error" dismissible>Something failed.</mcp-alert>
+      </mcp-vstack>
+    </section>
+
+    <section>
+      <h2>Loading</h2>
+      <div class="demo-row">
+        <mcp-spinner size="sm"></mcp-spinner>
+        <mcp-spinner size="md"></mcp-spinner>
+        <mcp-spinner size="lg"></mcp-spinner>
+      </div>
+      <mcp-progress value="65" label="Progress" show-value style="max-width: 400px; margin-top: 1rem;"></mcp-progress>
+      <mcp-progress indeterminate style="max-width: 400px; margin-top: 1rem;"></mcp-progress>
+    </section>
+
+    <section>
+      <h2>Code Block</h2>
+      <mcp-code language="json">{"tool": "get_weather", "status": "success"}</mcp-code>
+    </section>
+
+    <section>
+      <h2>Key-Value</h2>
+      <mcp-card style="max-width: 400px;">
+        <mcp-kv>
+          <mcp-kv-item key="Status" value="Active"></mcp-kv-item>
+          <mcp-kv-item key="Tool" value="get_weather" mono copyable></mcp-kv-item>
+          <mcp-kv-item key="Latency" value="245ms"></mcp-kv-item>
+        </mcp-kv>
+      </mcp-card>
+    </section>
+
+    <section>
+      <h2>List</h2>
+      <mcp-list style="max-width: 400px;">
+        <mcp-list-item title="Server Connected" description="weather-mcp ready" interactive>
+          <mcp-badge slot="suffix" variant="success">Active</mcp-badge>
+        </mcp-list-item>
+        <mcp-list-item title="Tool Executed" description="Completed in 245ms" interactive>
+          <mcp-badge slot="suffix" variant="info">Done</mcp-badge>
+        </mcp-list-item>
+      </mcp-list>
+    </section>
+
+    <section>
+      <h2>Empty State</h2>
+      <mcp-card style="max-width: 500px;">
+        <mcp-empty title="No tools" description="Connect an MCP server to see tools.">
+          <mcp-button slot="action">Connect</mcp-button>
+        </mcp-empty>
+      </mcp-card>
+    </section>
+  </div>
+  <script type="module" src="./main.ts"></script>
+</body>
+</html>
