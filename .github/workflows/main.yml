@@ -1,4 +1,4 @@
-name: Deploy Component Showcase
+name: Deploy Storybook
 
 on:
   push:
@@ -24,11 +24,11 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - run: npm ci
-      - run: npm run build:showcase
+      - run: npm run build-storybook
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist-showcase
+          path: storybook-static
 
   deploy:
     environment:
@@ -39,4 +39,3 @@ jobs:
     steps:
       - uses: actions/deploy-pages@v4
         id: deployment
-        
