@@ -21,7 +21,7 @@ export class McpSpinner extends LitElement {
 
       .spinner {
         border-radius: 50%;
-        border: 2px solid var(--mcp-color-muted);
+        border: 2px solid var(--mcp-color-ghost);
         border-top-color: var(--mcp-color-primary);
         animation: spin 0.8s linear infinite;
       }
@@ -83,7 +83,7 @@ export class McpLoading extends LitElement {
 
       .message {
         font-size: var(--mcp-font-size-sm);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
     `
   ];

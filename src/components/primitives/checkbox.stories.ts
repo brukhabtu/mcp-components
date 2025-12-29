@@ -69,13 +69,13 @@ export const WithDescription: Story = {
     <div style="display: flex; flex-direction: column; gap: 1rem;">
       <div>
         <mcp-checkbox label="Marketing emails"></mcp-checkbox>
-        <div style="margin-left: 1.75rem; font-size: 0.875rem; color: var(--mcp-color-muted-foreground);">
+        <div style="margin-left: 1.75rem; font-size: 0.875rem; color: var(--mcp-color-ghost-foreground);">
           Receive emails about new products and features.
         </div>
       </div>
       <div>
         <mcp-checkbox label="Security alerts" checked></mcp-checkbox>
-        <div style="margin-left: 1.75rem; font-size: 0.875rem; color: var(--mcp-color-muted-foreground);">
+        <div style="margin-left: 1.75rem; font-size: 0.875rem; color: var(--mcp-color-ghost-foreground);">
           Get notified about security issues.
         </div>
       </div>

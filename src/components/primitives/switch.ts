@@ -35,7 +35,7 @@ export class McpSwitch extends LitElement {
       .track {
         position: relative;
         border-radius: var(--mcp-radius-full);
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
         transition: background var(--mcp-transition-fast);
         flex-shrink: 0;
       }

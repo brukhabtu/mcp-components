@@ -99,7 +99,7 @@ export class McpToast extends LitElement {
 
       .message {
         font-size: var(--mcp-font-size-sm);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
 
       .close-btn {
@@ -113,12 +113,12 @@ export class McpToast extends LitElement {
         background: transparent;
         border-radius: var(--mcp-radius-sm);
         cursor: pointer;
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         transition: all var(--mcp-transition-fast);
       }
 
       .close-btn:hover {
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
         color: var(--mcp-color-foreground);
       }
 

@@ -49,7 +49,7 @@ export class McpKeyValue extends LitElement {
       }
 
       .list.striped ::slotted(mcp-kv-item:nth-child(odd)) {
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
       }
     `
   ];
@@ -104,7 +104,7 @@ export class McpKvItem extends LitElement {
       .key {
         font-size: var(--mcp-font-size-sm);
         font-weight: var(--mcp-font-weight-medium);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
 
       :host([inline]) .key::after {
@@ -122,7 +122,7 @@ export class McpKvItem extends LitElement {
       }
 
       .value.null {
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         font-style: italic;
       }
 
@@ -136,7 +136,7 @@ export class McpKvItem extends LitElement {
         padding: var(--mcp-space-1);
         border: none;
         background: transparent;
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         cursor: pointer;
         opacity: 0;
         transition: opacity var(--mcp-transition-fast);

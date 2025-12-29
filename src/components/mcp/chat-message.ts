@@ -21,7 +21,7 @@ export class McpChatMessage extends LitElement {
       }
 
       .message.role-user {
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
       }
 
       .message.role-assistant {
@@ -102,7 +102,7 @@ export class McpChatMessage extends LitElement {
 
       .timestamp {
         font-size: var(--mcp-font-size-xs);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
 
       .body {
@@ -127,7 +127,7 @@ export class McpChatMessage extends LitElement {
       .loading span {
         width: 0.5rem;
         height: 0.5rem;
-        background: var(--mcp-color-muted-foreground);
+        background: var(--mcp-color-ghost-foreground);
         border-radius: 50%;
         animation: bounce 1.4s infinite ease-in-out both;
       }
@@ -155,13 +155,13 @@ export class McpChatMessage extends LitElement {
         background: transparent;
         border-radius: var(--mcp-radius-sm);
         font-size: var(--mcp-font-size-xs);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         cursor: pointer;
         transition: all var(--mcp-transition-fast);
       }
 
       .copy-btn:hover {
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
         color: var(--mcp-color-foreground);
       }
 

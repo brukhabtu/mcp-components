@@ -60,12 +60,12 @@ export class McpMenuItem extends LitElement {
       }
 
       button:hover:not(:disabled) {
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
       }
 
       button:focus {
         outline: none;
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
       }
 
       button:disabled {
@@ -97,7 +97,7 @@ export class McpMenuItem extends LitElement {
 
       .shortcut {
         font-size: var(--mcp-font-size-xs);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         margin-left: auto;
       }
     `
@@ -167,7 +167,7 @@ export class McpMenuGroup extends LitElement {
         padding: var(--mcp-space-2) var(--mcp-space-3);
         font-size: var(--mcp-font-size-xs);
         font-weight: var(--mcp-font-weight-medium);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         text-transform: uppercase;
         letter-spacing: 0.05em;
       }

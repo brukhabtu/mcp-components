@@ -19,7 +19,7 @@ export class McpCode extends LitElement {
 
       .wrapper {
         position: relative;
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
         border: 1px solid var(--mcp-color-border);
         border-radius: var(--mcp-radius-lg);
         overflow: hidden;
@@ -32,7 +32,7 @@ export class McpCode extends LitElement {
         padding: var(--mcp-space-2) var(--mcp-space-4);
         background: var(--mcp-color-border);
         font-size: var(--mcp-font-size-xs);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
 
       .language {
@@ -48,7 +48,7 @@ export class McpCode extends LitElement {
         border: none;
         border-radius: var(--mcp-radius-sm);
         background: transparent;
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         font-size: var(--mcp-font-size-xs);
         cursor: pointer;
         transition: all var(--mcp-transition-fast);

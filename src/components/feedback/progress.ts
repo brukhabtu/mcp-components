@@ -34,12 +34,12 @@ export class McpProgress extends LitElement {
       }
 
       .value {
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
 
       .track {
         height: 0.5rem;
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
         border-radius: var(--mcp-radius-full);
         overflow: hidden;
       }

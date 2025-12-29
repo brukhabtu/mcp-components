@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { baseStyles } from '../../styles/index.js';
 
-export type BadgeVariant = 'muted' | 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'error' | 'info';
+export type BadgeVariant = 'ghost' | 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'error' | 'info';
 
 /**
  * A badge component for displaying status, labels, or counts.
@@ -32,10 +32,10 @@ export class McpBadge extends LitElement {
         white-space: nowrap;
       }
 
-      /* Muted/default variant */
-      .variant-muted {
-        background: var(--mcp-color-muted);
-        color: var(--mcp-color-muted-foreground);
+      /* Ghost/default variant */
+      .variant-ghost {
+        background: var(--mcp-color-ghost);
+        color: var(--mcp-color-ghost-foreground);
       }
 
       /* Primary variant */
@@ -87,14 +87,14 @@ export class McpBadge extends LitElement {
         border: var(--mcp-border-width) solid currentColor;
       }
 
-      .outline.variant-muted {
-        color: var(--mcp-color-muted-foreground);
+      .outline.variant-ghost {
+        color: var(--mcp-color-ghost-foreground);
         border-color: var(--mcp-color-border);
       }
       .outline.variant-primary { color: var(--mcp-color-primary); }
       .outline.variant-secondary { color: var(--mcp-color-secondary); }
       .outline.variant-tertiary {
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         border-color: var(--mcp-color-border);
       }
       .outline.variant-success { color: var(--mcp-color-success); }
@@ -139,7 +139,7 @@ export class McpBadge extends LitElement {
     `
   ];
 
-  @property({ type: String }) variant: BadgeVariant = 'muted';
+  @property({ type: String }) variant: BadgeVariant = 'ghost';
   @property({ type: Boolean }) outline = false;
   @property({ type: Boolean }) soft = false;
   @property({ type: Boolean }) dot = false;

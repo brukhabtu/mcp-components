@@ -50,7 +50,7 @@ export class McpServerStatus extends LitElement {
         background: var(--mcp-color-warning);
         animation: pulse 1.5s infinite;
       }
-      .status-disconnected { background: var(--mcp-color-muted-foreground); }
+      .status-disconnected { background: var(--mcp-color-ghost-foreground); }
       .status-error { background: var(--mcp-color-error); }
 
       @keyframes pulse {
@@ -77,7 +77,7 @@ export class McpServerStatus extends LitElement {
         align-items: center;
         gap: var(--mcp-space-2);
         font-size: var(--mcp-font-size-xs);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         margin-top: var(--mcp-space-1);
       }
 
@@ -86,10 +86,10 @@ export class McpServerStatus extends LitElement {
         align-items: center;
         gap: var(--mcp-space-1);
         padding: 0 var(--mcp-space-2);
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
         border-radius: var(--mcp-radius-full);
         font-size: var(--mcp-font-size-xs);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
 
       .tools-count svg {
@@ -103,7 +103,7 @@ export class McpServerStatus extends LitElement {
       .chevron {
         width: 1.25rem;
         height: 1.25rem;
-        stroke: var(--mcp-color-muted-foreground);
+        stroke: var(--mcp-color-ghost-foreground);
         stroke-width: 2;
         fill: none;
         flex-shrink: 0;
@@ -117,7 +117,7 @@ export class McpServerStatus extends LitElement {
       .details {
         display: none;
         padding: var(--mcp-space-3) var(--mcp-space-4);
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
         border-top: 1px solid var(--mcp-color-border);
       }
 
@@ -133,7 +133,7 @@ export class McpServerStatus extends LitElement {
       }
 
       .detail-label {
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
 
       .detail-value {

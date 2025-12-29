@@ -77,7 +77,7 @@ export class McpCard extends LitElement {
       .footer {
         padding: var(--mcp-space-4);
         border-top: 1px solid var(--mcp-color-border);
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
       }
 
       /* Hide empty slots */

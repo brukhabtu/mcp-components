@@ -66,7 +66,7 @@ export const SettingsPanel: Story = {
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <div>
             <div style="font-weight: 500;">Dark Mode</div>
-            <div style="font-size: 0.875rem; color: var(--mcp-color-muted-foreground);">Enable dark theme</div>
+            <div style="font-size: 0.875rem; color: var(--mcp-color-ghost-foreground);">Enable dark theme</div>
           </div>
           <mcp-switch checked></mcp-switch>
         </div>
@@ -74,7 +74,7 @@ export const SettingsPanel: Story = {
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <div>
             <div style="font-weight: 500;">Notifications</div>
-            <div style="font-size: 0.875rem; color: var(--mcp-color-muted-foreground);">Receive push notifications</div>
+            <div style="font-size: 0.875rem; color: var(--mcp-color-ghost-foreground);">Receive push notifications</div>
           </div>
           <mcp-switch></mcp-switch>
         </div>
@@ -82,7 +82,7 @@ export const SettingsPanel: Story = {
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <div>
             <div style="font-weight: 500;">Auto-save</div>
-            <div style="font-size: 0.875rem; color: var(--mcp-color-muted-foreground);">Automatically save changes</div>
+            <div style="font-size: 0.875rem; color: var(--mcp-color-ghost-foreground);">Automatically save changes</div>
           </div>
           <mcp-switch checked></mcp-switch>
         </div>

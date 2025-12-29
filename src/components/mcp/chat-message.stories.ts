@@ -93,7 +93,7 @@ export const WithCodeBlock: Story = {
   render: () => html`
     <mcp-chat-message role="assistant" timestamp="3:00 PM">
       <p>Here's how you can create a simple MCP tool:</p>
-      <pre style="background: var(--mcp-color-muted); padding: 1rem; border-radius: 0.5rem; overflow-x: auto;">
+      <pre style="background: var(--mcp-color-ghost); padding: 1rem; border-radius: 0.5rem; overflow-x: auto;">
 const tool = {
   name: 'get_weather',
   description: 'Get current weather',

@@ -80,12 +80,12 @@ export class McpModal extends LitElement {
         background: transparent;
         border-radius: var(--mcp-radius-md);
         cursor: pointer;
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         transition: all var(--mcp-transition-fast);
       }
 
       .close-btn:hover {
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
         color: var(--mcp-color-foreground);
       }
 
@@ -110,7 +110,7 @@ export class McpModal extends LitElement {
         gap: var(--mcp-space-3);
         padding: var(--mcp-space-4) var(--mcp-space-6);
         border-top: 1px solid var(--mcp-color-border);
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
       }
 
       .footer:empty {

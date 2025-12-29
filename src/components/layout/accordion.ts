@@ -74,7 +74,7 @@ export class McpAccordionItem extends LitElement {
       }
 
       .header:hover:not(:disabled) {
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
       }
 
       .header:disabled {
@@ -84,7 +84,7 @@ export class McpAccordionItem extends LitElement {
 
       .header:focus {
         outline: none;
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
       }
 
       .icon {
@@ -118,7 +118,7 @@ export class McpAccordionItem extends LitElement {
       .content-inner > div {
         padding: 0 var(--mcp-space-4) var(--mcp-space-4);
         font-size: var(--mcp-font-size-sm);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
     `
   ];

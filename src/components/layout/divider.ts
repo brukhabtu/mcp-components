@@ -40,7 +40,7 @@ export class McpDivider extends LitElement {
       .label {
         padding: 0 var(--mcp-space-3);
         font-size: var(--mcp-font-size-sm);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         white-space: nowrap;
       }
 

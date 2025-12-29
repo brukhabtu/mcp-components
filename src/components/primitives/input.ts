@@ -67,7 +67,7 @@ export class McpInput extends LitElement {
       .input-wrapper.disabled {
         opacity: var(--mcp-opacity-disabled);
         cursor: not-allowed;
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
       }
 
       input {
@@ -83,7 +83,7 @@ export class McpInput extends LitElement {
       }
 
       input::placeholder {
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
 
       input:disabled {
@@ -95,7 +95,7 @@ export class McpInput extends LitElement {
       }
 
       .helper {
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
 
       .error-text {
@@ -105,7 +105,7 @@ export class McpInput extends LitElement {
       ::slotted(svg) {
         width: 1rem;
         height: 1rem;
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
     `
   ];

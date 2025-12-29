@@ -3,10 +3,8 @@ import { css } from 'lit';
 /**
  * MCP Components Design System Tokens
  *
- * Variant System:
- * - Hierarchy: primary, secondary, tertiary (emphasis levels)
- * - Status: success, warning, error, info (semantic feedback)
- * - Neutral: muted (subtle/default)
+ * Variants (visual hierarchy): primary, secondary, tertiary, ghost
+ * Status (semantic feedback): success, warning, error, info
  */
 
 export const tokens = css`
@@ -66,8 +64,8 @@ export const tokens = css`
     /* Surface colors */
     --mcp-color-background: #ffffff;
     --mcp-color-foreground: #0f172a;
-    --mcp-color-muted: #f1f5f9;
-    --mcp-color-muted-foreground: #64748b;
+    --mcp-color-ghost: #f1f5f9;
+    --mcp-color-ghost-foreground: #64748b;
     --mcp-color-border: #e2e8f0;
     --mcp-color-border-hover: #cbd5e1;
     --mcp-color-backdrop: rgba(0, 0, 0, 0.5);
@@ -201,8 +199,8 @@ export const darkTokens = css`
     /* Surfaces */
     --mcp-color-background: #0f172a;
     --mcp-color-foreground: #f8fafc;
-    --mcp-color-muted: #1e293b;
-    --mcp-color-muted-foreground: #94a3b8;
+    --mcp-color-ghost: #1e293b;
+    --mcp-color-ghost-foreground: #94a3b8;
     --mcp-color-border: #334155;
     --mcp-color-border-hover: #475569;
     --mcp-color-backdrop: rgba(0, 0, 0, 0.7);
@@ -262,8 +260,8 @@ export const anthropicTokens = css`
     /* Surfaces - Warm Stone Dark */
     --mcp-color-background: #1C1917;
     --mcp-color-foreground: #FAFAF9;
-    --mcp-color-muted: #292524;
-    --mcp-color-muted-foreground: #A8A29E;
+    --mcp-color-ghost: #292524;
+    --mcp-color-ghost-foreground: #A8A29E;
     --mcp-color-border: #44403C;
     --mcp-color-border-hover: #57534E;
     --mcp-color-backdrop: rgba(0, 0, 0, 0.7);

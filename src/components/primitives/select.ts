@@ -68,7 +68,7 @@ export class McpSelect extends LitElement {
       .trigger.disabled {
         opacity: var(--mcp-opacity-disabled);
         cursor: not-allowed;
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
       }
 
       .trigger.open {
@@ -76,7 +76,7 @@ export class McpSelect extends LitElement {
       }
 
       .placeholder {
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
 
       .chevron {
@@ -121,7 +121,7 @@ export class McpSelect extends LitElement {
       }
 
       .option:hover:not(.disabled) {
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
       }
 
       .option.selected {
@@ -135,7 +135,7 @@ export class McpSelect extends LitElement {
       }
 
       .option.focused {
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
       }
 
       .helper, .error-text {
@@ -143,7 +143,7 @@ export class McpSelect extends LitElement {
       }
 
       .helper {
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
 
       .error-text {

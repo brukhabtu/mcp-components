@@ -49,7 +49,7 @@ export class McpTextarea extends LitElement {
       }
 
       textarea::placeholder {
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
 
       textarea:focus {
@@ -69,7 +69,7 @@ export class McpTextarea extends LitElement {
       textarea:disabled {
         opacity: 0.5;
         cursor: not-allowed;
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
       }
 
       textarea.autosize {
@@ -82,7 +82,7 @@ export class McpTextarea extends LitElement {
       }
 
       .helper {
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
 
       .error-text {
@@ -91,7 +91,7 @@ export class McpTextarea extends LitElement {
 
       .char-count {
         font-size: var(--mcp-font-size-xs);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         text-align: right;
       }
     `

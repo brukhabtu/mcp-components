@@ -9,12 +9,11 @@ paths: src/styles/**/*.ts
 
 ## Color Tokens
 
-### Variants
-| Type | Values |
-|------|--------|
-| Hierarchy | `primary`, `secondary`, `tertiary` |
-| Status | `success`, `warning`, `error`, `info` |
-| Neutral | `muted` |
+### Variants (visual hierarchy)
+`primary`, `secondary`, `tertiary`, `ghost`
+
+### Status (semantic feedback)
+`success`, `warning`, `error`, `info`
 
 ### Suffixes
 | Suffix | Purpose |
@@ -23,6 +22,9 @@ paths: src/styles/**/*.ts
 | `-active` | Pressed state |
 | `-foreground` | Text on that background |
 | `-muted` | 10-15% alpha for focus rings, selections |
+
+## Interactive States
+- Disabled: `opacity: var(--mcp-opacity-disabled)`
 
 ## Spacing Scale
 `space-{0,1,2,3,4,5,6,8,10,12}` (0.25rem increments)

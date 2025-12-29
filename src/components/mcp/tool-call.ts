@@ -25,7 +25,7 @@ export class McpToolCall extends LitElement {
         align-items: center;
         gap: var(--mcp-space-3);
         padding: var(--mcp-space-3) var(--mcp-space-4);
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
       }
 
       .status-icon {
@@ -42,7 +42,7 @@ export class McpToolCall extends LitElement {
         fill: none;
       }
 
-      .status-pending { color: var(--mcp-color-muted-foreground); }
+      .status-pending { color: var(--mcp-color-ghost-foreground); }
       .status-running { color: var(--mcp-color-info); }
       .status-success { color: var(--mcp-color-success); }
       .status-error { color: var(--mcp-color-error); }
@@ -65,7 +65,7 @@ export class McpToolCall extends LitElement {
       .duration {
         margin-left: auto;
         font-size: var(--mcp-font-size-xs);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
 
       .section {
@@ -83,13 +83,13 @@ export class McpToolCall extends LitElement {
       }
 
       .section-header:hover {
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
       }
 
       .section-title {
         font-size: var(--mcp-font-size-xs);
         font-weight: var(--mcp-font-weight-medium);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         text-transform: uppercase;
         letter-spacing: 0.05em;
       }
@@ -109,7 +109,7 @@ export class McpToolCall extends LitElement {
         background: transparent;
         border-radius: var(--mcp-radius-sm);
         cursor: pointer;
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         transition: all var(--mcp-transition-fast);
       }
 
@@ -147,7 +147,7 @@ export class McpToolCall extends LitElement {
       pre {
         margin: 0;
         padding: var(--mcp-space-3);
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
         border-radius: var(--mcp-radius-md);
         font-family: var(--mcp-font-family-mono);
         font-size: var(--mcp-font-size-xs);

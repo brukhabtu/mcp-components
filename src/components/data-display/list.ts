@@ -84,7 +84,7 @@ export class McpListItem extends LitElement {
       }
 
       .item.interactive:hover {
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
       }
 
       .item.selected {
@@ -113,7 +113,7 @@ export class McpListItem extends LitElement {
 
       .description {
         font-size: var(--mcp-font-size-xs);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         margin-top: var(--mcp-space-1);
       }
 
@@ -122,7 +122,7 @@ export class McpListItem extends LitElement {
       }
 
       ::slotted(mcp-icon) {
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
       }
     `
   ];

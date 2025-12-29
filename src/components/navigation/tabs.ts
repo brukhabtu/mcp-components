@@ -24,7 +24,7 @@ export class McpTabs extends LitElement {
 
       .tabs-list.variant-pills {
         border-bottom: none;
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
         padding: var(--mcp-space-1);
         border-radius: var(--mcp-radius-lg);
       }
@@ -86,7 +86,7 @@ export class McpTab extends LitElement {
         font-family: inherit;
         font-size: var(--mcp-font-size-sm);
         font-weight: var(--mcp-font-weight-medium);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         cursor: pointer;
         transition: all var(--mcp-transition-fast);
         border-bottom: 2px solid transparent;

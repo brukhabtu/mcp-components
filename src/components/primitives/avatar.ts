@@ -21,8 +21,8 @@ export class McpAvatar extends LitElement {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--mcp-color-muted);
-        color: var(--mcp-color-muted-foreground);
+        background: var(--mcp-color-ghost);
+        color: var(--mcp-color-ghost-foreground);
         font-weight: var(--mcp-font-weight-medium);
         overflow: hidden;
         flex-shrink: 0;
@@ -70,7 +70,7 @@ export class McpAvatar extends LitElement {
       .size-lg .status, .size-xl .status { width: 0.75rem; height: 0.75rem; }
 
       .status-online { background: var(--mcp-color-success); }
-      .status-offline { background: var(--mcp-color-muted-foreground); }
+      .status-offline { background: var(--mcp-color-ghost-foreground); }
       .status-busy { background: var(--mcp-color-error); }
       .status-away { background: var(--mcp-color-warning); }
     `
@@ -157,8 +157,8 @@ export class McpAvatarGroup extends LitElement {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--mcp-color-muted);
-        color: var(--mcp-color-muted-foreground);
+        background: var(--mcp-color-ghost);
+        color: var(--mcp-color-ghost-foreground);
         border-radius: 50%;
         font-size: var(--mcp-font-size-xs);
         font-weight: var(--mcp-font-weight-medium);

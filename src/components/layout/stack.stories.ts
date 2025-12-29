@@ -72,17 +72,17 @@ export const Nested: Story = {
   render: () => html`
     <mcp-vstack gap="var(--mcp-space-6)">
       <mcp-hstack gap="var(--mcp-space-4)">
-        <div style="width: 80px; height: 80px; background: var(--mcp-color-muted); border-radius: var(--mcp-radius-lg);"></div>
+        <div style="width: 80px; height: 80px; background: var(--mcp-color-ghost); border-radius: var(--mcp-radius-lg);"></div>
         <mcp-vstack gap="var(--mcp-space-2)">
           <strong>Title</strong>
-          <span style="color: var(--mcp-color-muted-foreground);">Description text goes here</span>
+          <span style="color: var(--mcp-color-ghost-foreground);">Description text goes here</span>
         </mcp-vstack>
       </mcp-hstack>
       <mcp-hstack gap="var(--mcp-space-4)">
-        <div style="width: 80px; height: 80px; background: var(--mcp-color-muted); border-radius: var(--mcp-radius-lg);"></div>
+        <div style="width: 80px; height: 80px; background: var(--mcp-color-ghost); border-radius: var(--mcp-radius-lg);"></div>
         <mcp-vstack gap="var(--mcp-space-2)">
           <strong>Another Title</strong>
-          <span style="color: var(--mcp-color-muted-foreground);">More description text</span>
+          <span style="color: var(--mcp-color-ghost-foreground);">More description text</span>
         </mcp-vstack>
       </mcp-hstack>
     </mcp-vstack>

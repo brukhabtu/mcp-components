@@ -134,7 +134,7 @@ export const Dashboard: Story = {
         <mcp-server-status name="Dev Server" status="disconnected" toolsCount=${20}></mcp-server-status>
       </div>
       <mcp-divider style="margin: 1rem 0;"></mcp-divider>
-      <div style="display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--mcp-color-muted-foreground);">
+      <div style="display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--mcp-color-ghost-foreground);">
         <span>2 of 3 servers online</span>
         <span>30 tools available</span>
       </div>

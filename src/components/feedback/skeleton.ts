@@ -16,7 +16,7 @@ export class McpSkeleton extends LitElement {
       }
 
       .skeleton {
-        background: var(--mcp-color-muted);
+        background: var(--mcp-color-ghost);
         border-radius: var(--mcp-radius-md);
         animation: pulse 2s ease-in-out infinite;
       }

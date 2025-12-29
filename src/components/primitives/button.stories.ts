@@ -99,7 +99,7 @@ export const AllVariants: Story = {
   render: () => html`
     <div style="display: flex; flex-direction: column; gap: 1rem;">
       <div>
-        <h4 style="margin: 0 0 0.5rem; font-size: 0.875rem; color: var(--mcp-color-muted-foreground);">Hierarchy</h4>
+        <h4 style="margin: 0 0 0.5rem; font-size: 0.875rem; color: var(--mcp-color-ghost-foreground);">Hierarchy</h4>
         <div style="display: flex; gap: 0.5rem;">
           <mcp-button variant="primary">Primary</mcp-button>
           <mcp-button variant="secondary">Secondary</mcp-button>
@@ -107,7 +107,7 @@ export const AllVariants: Story = {
         </div>
       </div>
       <div>
-        <h4 style="margin: 0 0 0.5rem; font-size: 0.875rem; color: var(--mcp-color-muted-foreground);">Status</h4>
+        <h4 style="margin: 0 0 0.5rem; font-size: 0.875rem; color: var(--mcp-color-ghost-foreground);">Status</h4>
         <div style="display: flex; gap: 0.5rem;">
           <mcp-button variant="success">Success</mcp-button>
           <mcp-button variant="warning">Warning</mcp-button>

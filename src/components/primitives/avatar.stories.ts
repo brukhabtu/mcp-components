@@ -96,7 +96,7 @@ export const UserList: Story = {
           <mcp-avatar src="https://i.pravatar.cc/150?u=${user.id}" status=${user.status}></mcp-avatar>
           <div>
             <div style="font-weight: 500;">${user.name}</div>
-            <div style="font-size: 0.875rem; color: var(--mcp-color-muted-foreground); text-transform: capitalize;">${user.status}</div>
+            <div style="font-size: 0.875rem; color: var(--mcp-color-ghost-foreground); text-transform: capitalize;">${user.status}</div>
           </div>
         </div>
       `)}

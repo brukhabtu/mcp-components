@@ -24,7 +24,7 @@ export class McpEmpty extends LitElement {
       }
 
       .icon {
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         margin-bottom: var(--mcp-space-4);
       }
 
@@ -45,7 +45,7 @@ export class McpEmpty extends LitElement {
 
       .description {
         font-size: var(--mcp-font-size-sm);
-        color: var(--mcp-color-muted-foreground);
+        color: var(--mcp-color-ghost-foreground);
         max-width: 24rem;
       }
 
