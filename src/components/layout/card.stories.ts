@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import './card.js';
+import './card';
+import '../primitives/button';
 
 const meta: Meta = {
   title: 'Layout/Card',

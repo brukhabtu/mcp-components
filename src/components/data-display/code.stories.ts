@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import './code.js';
+import './code';
 
 const meta: Meta = {
   title: 'Data Display/Code',

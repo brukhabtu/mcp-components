@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import './button.js';
+import './button';
 
 const meta: Meta = {
   title: 'Primitives/Button',

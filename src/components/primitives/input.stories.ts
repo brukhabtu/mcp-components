@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import './input.js';
+import './input';
 
 const meta: Meta = {
   title: 'Primitives/Input',

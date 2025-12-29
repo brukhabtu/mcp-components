@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import './stack.js';
-import '../primitives/button.js';
+import './stack';
+import '../primitives/button';
 
 const meta: Meta = {
   title: 'Layout/Stack',

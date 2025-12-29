@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import './list.js';
-import '../primitives/badge.js';
+import './list';
+import '../primitives/badge';
 
 const meta: Meta = {
   title: 'Data Display/List',
