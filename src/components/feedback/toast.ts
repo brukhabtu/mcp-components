@@ -124,7 +124,7 @@ export class McpToast extends LitElement {
 
       .close-btn:focus-visible {
         outline: none;
-        box-shadow: var(--mcp-focus-ring);
+        box-shadow: 0 0 0 3px var(--mcp-color-primary-muted);
       }
 
       .close-btn svg {

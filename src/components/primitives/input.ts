@@ -53,7 +53,7 @@ export class McpInput extends LitElement {
 
       .input-wrapper:focus-within {
         border-color: var(--mcp-color-primary);
-        box-shadow: var(--mcp-focus-ring);
+        box-shadow: 0 0 0 3px var(--mcp-color-primary-muted);
       }
 
       .input-wrapper.error {
@@ -61,7 +61,7 @@ export class McpInput extends LitElement {
       }
 
       .input-wrapper.error:focus-within {
-        box-shadow: var(--mcp-focus-ring-error);
+        box-shadow: 0 0 0 3px var(--mcp-color-error-muted);
       }
 
       .input-wrapper.disabled {

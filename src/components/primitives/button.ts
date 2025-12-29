@@ -44,7 +44,7 @@ export class McpButton extends LitElement {
 
       button:focus-visible {
         outline: none;
-        box-shadow: var(--mcp-focus-ring);
+        box-shadow: 0 0 0 3px var(--mcp-color-primary-muted);
       }
 
       button:disabled {

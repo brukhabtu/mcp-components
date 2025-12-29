@@ -54,7 +54,7 @@ export class McpSelect extends LitElement {
       .trigger:focus {
         outline: none;
         border-color: var(--mcp-color-primary);
-        box-shadow: var(--mcp-focus-ring);
+        box-shadow: 0 0 0 3px var(--mcp-color-primary-muted);
       }
 
       .trigger.error {
@@ -62,7 +62,7 @@ export class McpSelect extends LitElement {
       }
 
       .trigger.error:focus {
-        box-shadow: var(--mcp-focus-ring-error);
+        box-shadow: 0 0 0 3px var(--mcp-color-error-muted);
       }
 
       .trigger.disabled {

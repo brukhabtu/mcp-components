@@ -152,8 +152,6 @@ export const tokens = css`
        INTERACTIVE STATES
        ====================== */
     --mcp-opacity-disabled: 0.5;
-    --mcp-focus-ring: 0 0 0 3px var(--mcp-color-primary-muted);
-    --mcp-focus-ring-error: 0 0 0 3px var(--mcp-color-error-muted);
   }
 `;
 
@@ -209,9 +207,6 @@ export const darkTokens = css`
     --mcp-color-border-hover: #475569;
     --mcp-color-backdrop: rgba(0, 0, 0, 0.7);
 
-    /* Focus ring */
-    --mcp-focus-ring: 0 0 0 3px var(--mcp-color-primary-muted);
-    --mcp-focus-ring-error: 0 0 0 3px var(--mcp-color-error-muted);
   }
 `;
 
@@ -273,9 +268,6 @@ export const anthropicTokens = css`
     --mcp-color-border-hover: #57534E;
     --mcp-color-backdrop: rgba(0, 0, 0, 0.7);
 
-    /* Focus ring */
-    --mcp-focus-ring: 0 0 0 3px var(--mcp-color-primary-muted);
-    --mcp-focus-ring-error: 0 0 0 3px var(--mcp-color-error-muted);
   }
 `;
 
