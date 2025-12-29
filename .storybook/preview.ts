@@ -64,6 +64,30 @@ style.textContent = `
     --mcp-color-border: #334155;
   }
 
+  [data-theme="anthropic"] {
+    --mcp-color-primary: #D97706;
+    --mcp-color-primary-hover: #B45309;
+    --mcp-color-primary-active: #92400E;
+    --mcp-color-primary-foreground: #ffffff;
+    --mcp-color-secondary: #78716c;
+    --mcp-color-secondary-hover: #57534e;
+    --mcp-color-secondary-foreground: #ffffff;
+    --mcp-color-success: #059669;
+    --mcp-color-success-foreground: #ffffff;
+    --mcp-color-warning: #D97706;
+    --mcp-color-warning-foreground: #ffffff;
+    --mcp-color-error: #DC2626;
+    --mcp-color-error-foreground: #ffffff;
+    --mcp-color-info: #D97706;
+    --mcp-color-info-foreground: #ffffff;
+    --mcp-color-background: #1C1917;
+    --mcp-color-foreground: #FAFAF9;
+    --mcp-color-muted: #292524;
+    --mcp-color-muted-foreground: #A8A29E;
+    --mcp-color-border: #44403C;
+    --mcp-color-border-hover: #57534E;
+  }
+
   body {
     font-family: var(--mcp-font-family);
     background: var(--mcp-color-background);
@@ -85,6 +109,7 @@ const preview: Preview = {
       values: [
         { name: 'light', value: '#ffffff' },
         { name: 'dark', value: '#0f172a' },
+        { name: 'anthropic', value: '#1C1917' },
       ],
     },
     a11y: {
@@ -97,7 +122,7 @@ const preview: Preview = {
       toolbar: {
         title: 'Theme',
         icon: 'circlehollow',
-        items: ['light', 'dark'],
+        items: ['light', 'dark', 'anthropic'],
         dynamicTitle: true,
       },
     },
