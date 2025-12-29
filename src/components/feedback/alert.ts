@@ -14,11 +14,11 @@ const iconPaths: Record<AlertVariant, string> = {
 
 /**
  * An alert component for displaying important messages.
- * 
+ *
  * @slot - Alert content/description
  * @slot title - Alert title
  * @slot action - Optional action button/link
- * 
+ *
  * @fires mcp-dismiss - When the dismiss button is clicked
  */
 @customElement('mcp-alert')
@@ -35,30 +35,30 @@ export class McpAlert extends LitElement {
         gap: var(--mcp-space-3);
         padding: var(--mcp-space-4);
         border-radius: var(--mcp-radius-lg);
-        border: 1px solid transparent;
+        border: var(--mcp-border-width) solid transparent;
       }
 
       .variant-info {
-        background: rgb(59 130 246 / 0.1);
-        border-color: rgb(59 130 246 / 0.2);
+        background: var(--mcp-color-info-muted);
+        border-color: var(--mcp-color-info);
         color: var(--mcp-color-info);
       }
 
       .variant-success {
-        background: rgb(34 197 94 / 0.1);
-        border-color: rgb(34 197 94 / 0.2);
+        background: var(--mcp-color-success-muted);
+        border-color: var(--mcp-color-success);
         color: var(--mcp-color-success);
       }
 
       .variant-warning {
-        background: rgb(245 158 11 / 0.1);
-        border-color: rgb(245 158 11 / 0.2);
+        background: var(--mcp-color-warning-muted);
+        border-color: var(--mcp-color-warning);
         color: var(--mcp-color-warning);
       }
 
       .variant-error {
-        background: rgb(239 68 68 / 0.1);
-        border-color: rgb(239 68 68 / 0.2);
+        background: var(--mcp-color-error-muted);
+        border-color: var(--mcp-color-error);
         color: var(--mcp-color-error);
       }
 
@@ -106,10 +106,16 @@ export class McpAlert extends LitElement {
         color: inherit;
         opacity: 0.7;
         transition: opacity var(--mcp-transition-fast);
+        border-radius: var(--mcp-radius-sm);
       }
 
       .dismiss:hover {
         opacity: 1;
+      }
+
+      .dismiss:focus-visible {
+        outline: none;
+        box-shadow: var(--mcp-focus-ring);
       }
 
       .dismiss svg {
@@ -146,7 +152,7 @@ export class McpAlert extends LitElement {
             <path d=${iconPaths[this.variant]} />
           </svg>
         </div>
-        
+
         <div class="content">
           ${this.title ? html`<div class="title">${this.title}</div>` : nothing}
           <div class="description">

@@ -41,7 +41,7 @@ export const Sizes: Story = {
   render: () => html`
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
       ${['sm', 'md', 'lg', 'xl'].map(size => html`
-        <mcp-button @click=${(e: Event) => {
+        <mcp-button @click=${() => {
           const modal = document.getElementById(`modal-${size}`) as any;
           modal.open = true;
         }}>${size.toUpperCase()}</mcp-button>

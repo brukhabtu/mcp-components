@@ -54,15 +54,19 @@ export class McpSelect extends LitElement {
       .trigger:focus {
         outline: none;
         border-color: var(--mcp-color-primary);
-        box-shadow: 0 0 0 3px rgb(99 102 241 / 0.1);
+        box-shadow: var(--mcp-focus-ring);
       }
 
       .trigger.error {
         border-color: var(--mcp-color-error);
       }
 
+      .trigger.error:focus {
+        box-shadow: var(--mcp-focus-ring-error);
+      }
+
       .trigger.disabled {
-        opacity: 0.5;
+        opacity: var(--mcp-opacity-disabled);
         cursor: not-allowed;
         background: var(--mcp-color-muted);
       }
@@ -121,12 +125,12 @@ export class McpSelect extends LitElement {
       }
 
       .option.selected {
-        background: rgb(99 102 241 / 0.1);
+        background: var(--mcp-color-primary-muted);
         color: var(--mcp-color-primary);
       }
 
       .option.disabled {
-        opacity: 0.5;
+        opacity: var(--mcp-opacity-disabled);
         cursor: not-allowed;
       }
 

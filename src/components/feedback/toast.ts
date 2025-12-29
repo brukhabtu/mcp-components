@@ -13,6 +13,14 @@ const iconPaths: Record<ToastVariant, string> = {
   error: 'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z',
 };
 
+/**
+ * A toast notification component.
+ *
+ * @slot - Additional content
+ * @slot action - Optional action button
+ *
+ * @fires mcp-dismiss - When the toast is dismissed
+ */
 @customElement('mcp-toast')
 export class McpToast extends LitElement {
   static styles = [
@@ -28,12 +36,12 @@ export class McpToast extends LitElement {
         gap: var(--mcp-space-3);
         padding: var(--mcp-space-4);
         background: var(--mcp-color-background);
-        border: 1px solid var(--mcp-color-border);
+        border: var(--mcp-border-width) solid var(--mcp-color-border);
         border-radius: var(--mcp-radius-lg);
         box-shadow: var(--mcp-shadow-lg);
         min-width: 20rem;
         max-width: 28rem;
-        animation: slideIn 0.2s ease-out;
+        animation: slideIn var(--mcp-transition-normal);
       }
 
       @keyframes slideIn {
@@ -48,7 +56,7 @@ export class McpToast extends LitElement {
       }
 
       .toast.exiting {
-        animation: slideOut 0.2s ease-in forwards;
+        animation: slideOut var(--mcp-transition-normal) forwards;
       }
 
       @keyframes slideOut {
@@ -112,6 +120,11 @@ export class McpToast extends LitElement {
       .close-btn:hover {
         background: var(--mcp-color-muted);
         color: var(--mcp-color-foreground);
+      }
+
+      .close-btn:focus-visible {
+        outline: none;
+        box-shadow: var(--mcp-focus-ring);
       }
 
       .close-btn svg {
@@ -187,6 +200,9 @@ export class McpToast extends LitElement {
   }
 }
 
+/**
+ * A container for managing multiple toast notifications.
+ */
 @customElement('mcp-toaster')
 export class McpToaster extends LitElement {
   static styles = [
@@ -194,7 +210,7 @@ export class McpToaster extends LitElement {
     css`
       :host {
         position: fixed;
-        z-index: var(--mcp-z-tooltip);
+        z-index: var(--mcp-z-toast);
         display: flex;
         flex-direction: column;
         gap: var(--mcp-space-3);

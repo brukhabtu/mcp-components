@@ -9,11 +9,11 @@ const meta: Meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'success', 'error', 'warning', 'info'],
+      options: ['info', 'success', 'warning', 'error'],
     },
     message: { control: 'text' },
     duration: { control: 'number' },
-    closable: { control: 'boolean' },
+    dismissible: { control: 'boolean' },
   },
 };
 
@@ -22,18 +22,17 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: () => html`
-    <mcp-toast variant="default" message="This is a default toast notification"></mcp-toast>
+    <mcp-toast variant="info" message="This is an info toast notification"></mcp-toast>
   `,
 };
 
 export const Variants: Story = {
   render: () => html`
     <div style="display: flex; flex-direction: column; gap: 1rem;">
-      <mcp-toast variant="default" message="Default notification"></mcp-toast>
-      <mcp-toast variant="success" message="Success! Your changes have been saved."></mcp-toast>
-      <mcp-toast variant="error" message="Error! Something went wrong."></mcp-toast>
-      <mcp-toast variant="warning" message="Warning! Please review your input."></mcp-toast>
       <mcp-toast variant="info" message="Info: New updates available."></mcp-toast>
+      <mcp-toast variant="success" message="Success! Your changes have been saved."></mcp-toast>
+      <mcp-toast variant="warning" message="Warning! Please review your input."></mcp-toast>
+      <mcp-toast variant="error" message="Error! Something went wrong."></mcp-toast>
     </div>
   `,
 };
@@ -47,9 +46,9 @@ export const WithTitle: Story = {
   `,
 };
 
-export const Closable: Story = {
+export const Dismissible: Story = {
   render: () => html`
-    <mcp-toast variant="info" message="Click the X to close this toast" closable></mcp-toast>
+    <mcp-toast variant="info" message="Click the X to close this toast" dismissible></mcp-toast>
   `,
 };
 

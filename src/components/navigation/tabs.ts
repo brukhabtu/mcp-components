@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { baseStyles } from '../../styles/index.js';
 
@@ -39,30 +39,6 @@ export class McpTabs extends LitElement {
   @property({ type: String }) size: TabsSize = 'md';
   @property({ type: String }) value = '';
 
-  @state() private _tabs: McpTab[] = [];
-
-  connectedCallback() {
-    super.connectedCallback();
-    this._updateTabs();
-  }
-
-  private _updateTabs() {
-    const slot = this.shadowRoot?.querySelector('slot');
-    if (slot) {
-      this._tabs = slot.assignedElements().filter((el): el is McpTab => el.tagName === 'MCP-TAB');
-    }
-  }
-
-  private _selectTab(value: string) {
-    this.value = value;
-    this.dispatchEvent(new CustomEvent('mcp-change', {
-      detail: { value },
-      bubbles: true,
-      composed: true,
-    }));
-    this._updatePanels();
-  }
-
   private _updatePanels() {
     const panels = this.querySelectorAll('mcp-tab-panel');
     panels.forEach(panel => {
@@ -84,7 +60,7 @@ export class McpTabs extends LitElement {
 
     return html`
       <div class=${classMap(listClasses)} role="tablist">
-        <slot @slotchange=${this._updateTabs}></slot>
+        <slot></slot>
       </div>
       <slot name="panels"></slot>
     `;

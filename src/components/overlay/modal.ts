@@ -17,7 +17,7 @@ export class McpModal extends LitElement {
       .backdrop {
         position: fixed;
         inset: 0;
-        background: rgb(0 0 0 / 0.5);
+        background: var(--mcp-color-backdrop);
         z-index: var(--mcp-z-modal);
         display: flex;
         align-items: center;
@@ -151,7 +151,7 @@ export class McpModal extends LitElement {
   };
 
   private _close() {
-    this.dispatchEvent(new CustomEvent('mcp-close', { bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('mcp-dismiss', { bubbles: true, composed: true }));
   }
 
   render() {

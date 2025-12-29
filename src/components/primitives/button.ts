@@ -3,18 +3,18 @@ import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { baseStyles } from '../../styles/index.js';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive';
+export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'error' | 'info';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 /**
  * A composable button component with multiple variants and sizes.
- * 
+ *
  * @slot - Button content
  * @slot prefix - Content before the main slot (e.g., icon)
  * @slot suffix - Content after the main slot (e.g., icon)
- * 
+ *
  * @fires click - When button is clicked
- * 
+ *
  * @csspart button - The native button element
  */
 @customElement('mcp-button')
@@ -31,7 +31,7 @@ export class McpButton extends LitElement {
         align-items: center;
         justify-content: center;
         gap: var(--mcp-space-2);
-        border: 1px solid transparent;
+        border: var(--mcp-border-width) solid transparent;
         border-radius: var(--mcp-radius-md);
         font-family: inherit;
         font-weight: var(--mcp-font-weight-medium);
@@ -43,12 +43,12 @@ export class McpButton extends LitElement {
       }
 
       button:focus-visible {
-        outline: 2px solid var(--mcp-color-primary);
-        outline-offset: 2px;
+        outline: none;
+        box-shadow: var(--mcp-focus-ring);
       }
 
       button:disabled {
-        opacity: 0.5;
+        opacity: var(--mcp-opacity-disabled);
         cursor: not-allowed;
         pointer-events: none;
       }
@@ -72,7 +72,7 @@ export class McpButton extends LitElement {
         font-size: var(--mcp-font-size-base);
       }
 
-      /* Variants */
+      /* Primary variant */
       .variant-primary {
         background: var(--mcp-color-primary);
         color: var(--mcp-color-primary-foreground);
@@ -84,6 +84,7 @@ export class McpButton extends LitElement {
         background: var(--mcp-color-primary-active);
       }
 
+      /* Secondary variant */
       .variant-secondary {
         background: var(--mcp-color-secondary);
         color: var(--mcp-color-secondary-foreground);
@@ -91,31 +92,70 @@ export class McpButton extends LitElement {
       .variant-secondary:hover:not(:disabled) {
         background: var(--mcp-color-secondary-hover);
       }
-
-      .variant-outline {
-        background: transparent;
-        border-color: var(--mcp-color-border);
-        color: var(--mcp-color-foreground);
+      .variant-secondary:active:not(:disabled) {
+        background: var(--mcp-color-secondary-active);
       }
-      .variant-outline:hover:not(:disabled) {
-        background: var(--mcp-color-muted);
+
+      /* Tertiary variant (ghost-like) */
+      .variant-tertiary {
+        background: var(--mcp-color-tertiary);
+        color: var(--mcp-color-tertiary-foreground);
+        border-color: var(--mcp-color-border);
+      }
+      .variant-tertiary:hover:not(:disabled) {
+        background: var(--mcp-color-tertiary-hover);
         border-color: var(--mcp-color-border-hover);
       }
-
-      .variant-ghost {
-        background: transparent;
-        color: var(--mcp-color-foreground);
-      }
-      .variant-ghost:hover:not(:disabled) {
-        background: var(--mcp-color-muted);
+      .variant-tertiary:active:not(:disabled) {
+        background: var(--mcp-color-tertiary-active);
       }
 
-      .variant-destructive {
+      /* Success variant */
+      .variant-success {
+        background: var(--mcp-color-success);
+        color: var(--mcp-color-success-foreground);
+      }
+      .variant-success:hover:not(:disabled) {
+        background: var(--mcp-color-success-hover);
+      }
+      .variant-success:active:not(:disabled) {
+        background: var(--mcp-color-success-active);
+      }
+
+      /* Warning variant */
+      .variant-warning {
+        background: var(--mcp-color-warning);
+        color: var(--mcp-color-warning-foreground);
+      }
+      .variant-warning:hover:not(:disabled) {
+        background: var(--mcp-color-warning-hover);
+      }
+      .variant-warning:active:not(:disabled) {
+        background: var(--mcp-color-warning-active);
+      }
+
+      /* Error variant */
+      .variant-error {
         background: var(--mcp-color-error);
         color: var(--mcp-color-error-foreground);
       }
-      .variant-destructive:hover:not(:disabled) {
-        opacity: 0.9;
+      .variant-error:hover:not(:disabled) {
+        background: var(--mcp-color-error-hover);
+      }
+      .variant-error:active:not(:disabled) {
+        background: var(--mcp-color-error-active);
+      }
+
+      /* Info variant */
+      .variant-info {
+        background: var(--mcp-color-info);
+        color: var(--mcp-color-info-foreground);
+      }
+      .variant-info:hover:not(:disabled) {
+        background: var(--mcp-color-info-hover);
+      }
+      .variant-info:active:not(:disabled) {
+        background: var(--mcp-color-info-active);
       }
 
       /* Loading state */
@@ -134,7 +174,10 @@ export class McpButton extends LitElement {
         animation: spin 0.6s linear infinite;
       }
       .variant-primary.loading::after,
-      .variant-destructive.loading::after {
+      .variant-success.loading::after,
+      .variant-error.loading::after,
+      .variant-warning.loading::after,
+      .variant-info.loading::after {
         border-color: var(--mcp-color-primary-foreground);
         border-right-color: transparent;
       }
