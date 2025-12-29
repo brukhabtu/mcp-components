@@ -3,3 +3,7 @@ export * from './input.js';
 export * from './textarea.js';
 export * from './badge.js';
 export * from './icon.js';
+export * from './select.js';
+export * from './checkbox.js';
+export * from './switch.js';
+export * from './avatar.js';
