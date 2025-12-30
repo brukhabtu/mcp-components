@@ -16,10 +16,16 @@ const iconPaths: Record<AlertVariant, string> = {
  * An alert component for displaying important messages.
  *
  * @slot - Alert content/description
+ * @slot icon - Custom icon (overrides default variant icon)
  * @slot title - Alert title
  * @slot action - Optional action button/link
  *
  * @fires mcp-dismiss - When the dismiss button is clicked
+ *
+ * @csspart container - The alert container
+ * @csspart icon - The icon container
+ * @csspart content - The content area
+ * @csspart dismiss - The dismiss button
  */
 @customElement('mcp-alert')
 export class McpAlert extends LitElement {
@@ -68,7 +74,8 @@ export class McpAlert extends LitElement {
         height: 1.25rem;
       }
 
-      .icon svg {
+      .icon svg,
+      .icon ::slotted(svg) {
         width: 100%;
         height: 100%;
         fill: none;
@@ -76,6 +83,11 @@ export class McpAlert extends LitElement {
         stroke-width: 2;
         stroke-linecap: round;
         stroke-linejoin: round;
+      }
+
+      /* Hide default icon when slot is used */
+      .icon:has(::slotted(*)) .default-icon {
+        display: none;
       }
 
       .content {
@@ -146,14 +158,16 @@ export class McpAlert extends LitElement {
     };
 
     return html`
-      <div class=${classMap(classes)} role="alert">
-        <div class="icon">
-          <svg viewBox="0 0 24 24">
-            <path d=${iconPaths[this.variant]} />
-          </svg>
+      <div class=${classMap(classes)} role="alert" part="container">
+        <div class="icon" part="icon">
+          <slot name="icon">
+            <svg class="default-icon" viewBox="0 0 24 24">
+              <path d=${iconPaths[this.variant]} />
+            </svg>
+          </slot>
         </div>
 
-        <div class="content">
+        <div class="content" part="content">
           ${this.title ? html`<div class="title">${this.title}</div>` : nothing}
           <div class="description">
             <slot></slot>
@@ -164,7 +178,7 @@ export class McpAlert extends LitElement {
         </div>
 
         ${this.dismissible ? html`
-          <button class="dismiss" @click=${this._handleDismiss} aria-label="Dismiss">
+          <button class="dismiss" part="dismiss" @click=${this._handleDismiss} aria-label="Dismiss">
             <svg viewBox="0 0 24 24">
               <path d="M6 18L18 6M6 6l12 12" />
             </svg>

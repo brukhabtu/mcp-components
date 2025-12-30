@@ -5,6 +5,16 @@ import { baseStyles } from '../../styles/index.js';
 
 export type CheckboxSize = 'sm' | 'md' | 'lg';
 
+/**
+ * A checkbox input component.
+ *
+ * @slot - Label content (use for custom label with icons/badges)
+ *
+ * @fires mcp-change - When checkbox state changes
+ *
+ * @csspart checkbox - The checkbox visual element
+ * @csspart label - The label text container
+ */
 @customElement('mcp-checkbox')
 export class McpCheckbox extends LitElement {
   static styles = [
@@ -133,13 +143,15 @@ export class McpCheckbox extends LitElement {
             value=${this.value}
             @change=${this._handleChange}
           />
-          <span class=${classMap(checkboxClasses)}>
+          <span class=${classMap(checkboxClasses)} part="checkbox">
             ${this.indeterminate
               ? html`<svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>`
               : html`<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>`
             }
           </span>
-          ${this.label ? html`<span>${this.label}</span>` : html`<slot></slot>`}
+          <span part="label">
+            ${this.label ? this.label : html`<slot></slot>`}
+          </span>
         </label>
         ${this.error ? html`<span class="error-text">${this.error}</span>` : nothing}
       </div>

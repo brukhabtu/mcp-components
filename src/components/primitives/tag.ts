@@ -12,12 +12,13 @@ export type TagSize = 'sm' | 'md' | 'lg';
  *
  * @slot - Tag content
  * @slot icon - Optional icon before the label
+ * @slot remove - Custom remove button (overrides default X button when removable)
  *
  * @fires mcp-remove - When the remove button is clicked
  * @fires mcp-click - When the tag itself is clicked (if clickable)
  *
  * @csspart tag - The tag container
- * @csspart remove-button - The remove button
+ * @csspart remove-button - The remove button container
  */
 @customElement('mcp-tag')
 export class McpTag extends LitElement {
@@ -184,6 +185,17 @@ export class McpTag extends LitElement {
         width: 0.75rem;
         height: 0.75rem;
       }
+
+      /* Slotted remove button */
+      ::slotted([slot="remove"]) {
+        margin-left: var(--mcp-space-1);
+        cursor: pointer;
+      }
+
+      /* Hide default when slot is used */
+      .remove-container:has(::slotted(*)) .remove-btn {
+        display: none;
+      }
     `
   ];
 
@@ -232,17 +244,19 @@ export class McpTag extends LitElement {
         <slot></slot>
         ${this.removable && !this.disabled
           ? html`
-            <button
-              part="remove-button"
-              class="remove-btn"
-              type="button"
-              @click=${this._handleRemove}
-              aria-label="Remove"
-            >
-              <svg viewBox="0 0 24 24">
-                <path d="M18 6L6 18M6 6l12 12"/>
-              </svg>
-            </button>
+            <span class="remove-container" part="remove-button" @click=${this._handleRemove}>
+              <slot name="remove">
+                <button
+                  class="remove-btn"
+                  type="button"
+                  aria-label="Remove"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                  </svg>
+                </button>
+              </slot>
+            </span>
           `
           : nothing
         }

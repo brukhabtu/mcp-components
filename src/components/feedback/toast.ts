@@ -17,9 +17,15 @@ const iconPaths: Record<ToastVariant, string> = {
  * A toast notification component.
  *
  * @slot - Additional content
+ * @slot icon - Custom icon (overrides default variant icon)
  * @slot action - Optional action button
  *
  * @fires mcp-dismiss - When the toast is dismissed
+ *
+ * @csspart container - The toast container
+ * @csspart icon - The icon container
+ * @csspart content - The content area
+ * @csspart close - The close button
  */
 @customElement('mcp-toast')
 export class McpToast extends LitElement {
@@ -72,12 +78,18 @@ export class McpToast extends LitElement {
         height: 1.25rem;
       }
 
-      .icon svg {
+      .icon svg,
+      .icon ::slotted(svg) {
         width: 100%;
         height: 100%;
         fill: none;
         stroke: currentColor;
         stroke-width: 2;
+      }
+
+      /* Hide default icon when slot is used */
+      .icon:has(::slotted(*)) .default-icon {
+        display: none;
       }
 
       .variant-info .icon { color: var(--mcp-color-info); }
@@ -178,11 +190,13 @@ export class McpToast extends LitElement {
     };
 
     return html`
-      <div class=${classMap(classes)} role="alert">
-        <div class="icon">
-          <svg viewBox="0 0 24 24"><path d=${iconPaths[this.variant]}/></svg>
+      <div class=${classMap(classes)} role="alert" part="container">
+        <div class="icon" part="icon">
+          <slot name="icon">
+            <svg class="default-icon" viewBox="0 0 24 24"><path d=${iconPaths[this.variant]}/></svg>
+          </slot>
         </div>
-        <div class="content">
+        <div class="content" part="content">
           ${this.title ? html`<div class="title">${this.title}</div>` : nothing}
           ${this.message ? html`<div class="message">${this.message}</div>` : nothing}
           <slot></slot>
@@ -191,7 +205,7 @@ export class McpToast extends LitElement {
           </div>
         </div>
         ${this.dismissible ? html`
-          <button class="close-btn" @click=${this._dismiss} aria-label="Dismiss">
+          <button class="close-btn" part="close" @click=${this._dismiss} aria-label="Dismiss">
             <svg viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         ` : nothing}

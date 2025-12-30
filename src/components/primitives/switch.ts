@@ -5,6 +5,17 @@ import { baseStyles } from '../../styles/index.js';
 
 export type SwitchSize = 'sm' | 'md' | 'lg';
 
+/**
+ * A toggle switch component.
+ *
+ * @slot - Label content (use for custom label with icons/badges)
+ *
+ * @fires mcp-change - When switch state changes
+ *
+ * @csspart track - The switch track
+ * @csspart thumb - The switch thumb/knob
+ * @csspart label - The label text container
+ */
 @customElement('mcp-switch')
 export class McpSwitch extends LitElement {
   static styles = [
@@ -117,10 +128,12 @@ export class McpSwitch extends LitElement {
           name=${this.name}
           @change=${this._handleChange}
         />
-        <span class=${classMap(trackClasses)}>
-          <span class="thumb"></span>
+        <span class=${classMap(trackClasses)} part="track">
+          <span class="thumb" part="thumb"></span>
         </span>
-        ${this.label ? html`<span>${this.label}</span>` : html`<slot></slot>`}
+        <span part="label">
+          ${this.label ? this.label : html`<slot></slot>`}
+        </span>
       </label>
     `;
   }

@@ -6,13 +6,18 @@ import { baseStyles } from '../../styles/index.js';
 /**
  * A search input component with search icon and clear button.
  *
+ * @slot icon - Custom search icon (overrides default magnifying glass)
+ * @slot clear - Custom clear button (overrides default X button)
+ *
  * @fires mcp-input - When input value changes
  * @fires mcp-change - When input loses focus after value change
  * @fires mcp-clear - When clear button is clicked
  * @fires mcp-submit - When Enter is pressed
  *
+ * @csspart wrapper - The input wrapper
+ * @csspart icon - The search icon container
  * @csspart input - The native input element
- * @csspart clear-button - The clear button
+ * @csspart clear-button - The clear button container
  */
 @customElement('mcp-search-input')
 export class McpSearchInput extends LitElement {
@@ -61,12 +66,18 @@ export class McpSearchInput extends LitElement {
         color: var(--mcp-color-ghost-foreground);
       }
 
-      .search-icon svg {
+      .search-icon svg,
+      .search-icon ::slotted(svg) {
         width: 100%;
         height: 100%;
         stroke: currentColor;
         stroke-width: 2;
         fill: none;
+      }
+
+      /* Hide default icon when slot is used */
+      .search-icon:has(::slotted(*)) .default-icon {
+        display: none;
       }
 
       input {
@@ -141,6 +152,16 @@ export class McpSearchInput extends LitElement {
       @keyframes spin {
         to { transform: rotate(360deg); }
       }
+
+      /* Slotted clear button */
+      .clear-container ::slotted(*) {
+        cursor: pointer;
+      }
+
+      /* Hide default when slot is used */
+      .clear-container:has(::slotted(*)) .clear-btn {
+        display: none;
+      }
     `
   ];
 
@@ -213,12 +234,14 @@ export class McpSearchInput extends LitElement {
     };
 
     return html`
-      <div class=${classMap(wrapperClasses)}>
-        <span class="search-icon">
-          <svg viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="8"/>
-            <path d="M21 21l-4.35-4.35"/>
-          </svg>
+      <div class=${classMap(wrapperClasses)} part="wrapper">
+        <span class="search-icon" part="icon">
+          <slot name="icon">
+            <svg class="default-icon" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="M21 21l-4.35-4.35"/>
+            </svg>
+          </slot>
         </span>
 
         <input
@@ -236,18 +259,20 @@ export class McpSearchInput extends LitElement {
           ? html`<div class="loading-spinner"></div>`
           : this.value
             ? html`
-              <button
-                part="clear-button"
-                class="clear-btn"
-                type="button"
-                @click=${this.clear}
-                ?disabled=${this.disabled}
-                aria-label="Clear search"
-              >
-                <svg viewBox="0 0 24 24">
-                  <path d="M18 6L6 18M6 6l12 12"/>
-                </svg>
-              </button>
+              <span class="clear-container" part="clear-button" @click=${this.clear}>
+                <slot name="clear">
+                  <button
+                    class="clear-btn"
+                    type="button"
+                    ?disabled=${this.disabled}
+                    aria-label="Clear search"
+                  >
+                    <svg viewBox="0 0 24 24">
+                      <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                  </button>
+                </slot>
+              </span>
             `
             : nothing
         }
