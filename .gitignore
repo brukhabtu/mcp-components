@@ -24,3 +24,6 @@ coverage/
 
 *storybook.log
 storybook-static
+
+# Generated files
+public/design-tokens.source.json
