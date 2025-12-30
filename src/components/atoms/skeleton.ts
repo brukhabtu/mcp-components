@@ -5,6 +5,8 @@ import { baseStyles } from '../../styles/index.js';
 /**
  * A skeleton loading placeholder component.
  * Use to show a placeholder while content is loading.
+ *
+ * @csspart skeleton - The skeleton element
  */
 @customElement('mcp-skeleton')
 export class McpSkeleton extends LitElement {
@@ -34,19 +36,20 @@ export class McpSkeleton extends LitElement {
 
   /** Width of the skeleton (CSS value) */
   @property({ type: String }) width = '100%';
-  
+
   /** Height of the skeleton (CSS value) */
   @property({ type: String }) height = '1rem';
-  
+
   /** Whether to render as a circle */
   @property({ type: Boolean }) circle = false;
 
   render() {
     const styles = `width: ${this.width}; height: ${this.height};`;
-    
+
     return html`
-      <div 
+      <div
         class="skeleton ${this.circle ? 'circle' : ''}"
+        part="skeleton"
         style=${styles}
         aria-hidden="true"
       ></div>
@@ -54,41 +57,8 @@ export class McpSkeleton extends LitElement {
   }
 }
 
-/**
- * A skeleton text component that mimics text lines.
- */
-@customElement('mcp-skeleton-text')
-export class McpSkeletonText extends LitElement {
-  static styles = [
-    baseStyles,
-    css`
-      :host {
-        display: flex;
-        flex-direction: column;
-        gap: var(--mcp-space-2);
-      }
-
-      mcp-skeleton:last-child {
-        width: 80%;
-      }
-    `
-  ];
-
-  /** Number of lines to show */
-  @property({ type: Number }) lines = 3;
-
-  render() {
-    return html`
-      ${Array.from({ length: this.lines }, () => 
-        html`<mcp-skeleton height="0.875rem"></mcp-skeleton>`
-      )}
-    `;
-  }
-}
-
 declare global {
   interface HTMLElementTagNameMap {
     'mcp-skeleton': McpSkeleton;
-    'mcp-skeleton-text': McpSkeletonText;
   }
 }

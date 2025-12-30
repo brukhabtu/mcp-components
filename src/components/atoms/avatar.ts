@@ -7,6 +7,14 @@ export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type AvatarShape = 'circle' | 'square' | 'rounded';
 export type AvatarStatus = 'online' | 'offline' | 'busy' | 'away';
 
+/**
+ * An avatar component for displaying user images or initials.
+ *
+ * @csspart avatar - The avatar container
+ * @csspart image - The image element
+ * @csspart initials - The initials text
+ * @csspart status - The status indicator
+ */
 @customElement('mcp-avatar')
 export class McpAvatar extends LitElement {
   static styles = [
@@ -108,13 +116,13 @@ export class McpAvatar extends LitElement {
     const showIcon = !showImage && !showInitials;
 
     return html`
-      <div class=${classMap(classes)}>
+      <div class=${classMap(classes)} part="avatar">
         ${showImage ? html`
-          <img src=${this.src} alt=${this.alt || this.name} @error=${this._handleImgError} />
+          <img part="image" src=${this.src} alt=${this.alt || this.name} @error=${this._handleImgError} />
         ` : nothing}
 
         ${showInitials ? html`
-          <span class="initials">${this._initials}</span>
+          <span class="initials" part="initials">${this._initials}</span>
         ` : nothing}
 
         ${showIcon ? html`
@@ -127,57 +135,9 @@ export class McpAvatar extends LitElement {
         ` : nothing}
 
         ${this.status ? html`
-          <span class=${classMap({ status: true, [`status-${this.status}`]: true })}></span>
+          <span class=${classMap({ status: true, [`status-${this.status}`]: true })} part="status"></span>
         ` : nothing}
       </div>
-    `;
-  }
-}
-
-@customElement('mcp-avatar-group')
-export class McpAvatarGroup extends LitElement {
-  static styles = [
-    baseStyles,
-    css`
-      :host {
-        display: inline-flex;
-        flex-direction: row-reverse;
-      }
-
-      ::slotted(mcp-avatar) {
-        margin-left: -0.5rem;
-        box-shadow: 0 0 0 2px var(--mcp-color-background);
-      }
-
-      ::slotted(mcp-avatar:last-child) {
-        margin-left: 0;
-      }
-
-      .overflow {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: var(--mcp-color-ghost);
-        color: var(--mcp-color-ghost-foreground);
-        border-radius: 50%;
-        font-size: var(--mcp-font-size-xs);
-        font-weight: var(--mcp-font-weight-medium);
-        margin-left: -0.5rem;
-        box-shadow: 0 0 0 2px var(--mcp-color-background);
-      }
-
-      :host([size="sm"]) .overflow { width: 2rem; height: 2rem; }
-      :host([size="md"]) .overflow { width: 2.5rem; height: 2.5rem; }
-      :host([size="lg"]) .overflow { width: 3rem; height: 3rem; }
-    `
-  ];
-
-  @property({ type: Number }) max = 5;
-  @property({ type: String }) size: AvatarSize = 'md';
-
-  render() {
-    return html`
-      <slot></slot>
     `;
   }
 }
@@ -185,6 +145,5 @@ export class McpAvatarGroup extends LitElement {
 declare global {
   interface HTMLElementTagNameMap {
     'mcp-avatar': McpAvatar;
-    'mcp-avatar-group': McpAvatarGroup;
   }
 }
