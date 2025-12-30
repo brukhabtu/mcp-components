@@ -2,14 +2,14 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
 // Import components
-import '../components/mcp/chat-message.js';
-import '../components/mcp/tool-call.js';
-import '../components/mcp/server-status.js';
-import '../components/primitives/button.js';
-import '../components/primitives/textarea.js';
-import '../components/primitives/avatar.js';
-import '../components/layout/card.js';
-import '../components/layout/stack.js';
+import '../components/organisms/chat-message.js';
+import '../components/organisms/tool-call.js';
+import '../components/organisms/server-status.js';
+import '../components/atoms/button.js';
+import '../components/atoms/textarea.js';
+import '../components/atoms/avatar.js';
+import '../components/organisms/card.js';
+import '../components/organisms/stack.js';
 
 const meta: Meta = {
   title: 'Demos/Claude Chat',

@@ -2,11 +2,11 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 
 // Import components
-import '../components/data-display/code.js';
-import '../components/navigation/tabs.js';
-import '../components/primitives/button.js';
-import '../components/primitives/badge.js';
-import '../components/layout/card.js';
+import '../components/atoms/code.js';
+import '../components/organisms/tabs.js';
+import '../components/atoms/button.js';
+import '../components/atoms/badge.js';
+import '../components/organisms/card.js';
 
 const meta: Meta = {
   title: 'Demos/Artifact Viewer',
