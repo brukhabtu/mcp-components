@@ -1,0 +1,23 @@
+{
+  "name": "@mcp/chat-app",
+  "version": "0.1.0",
+  "description": "Chat app using Claude Agent SDK with MCP UI components",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "mcp-chat": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}
