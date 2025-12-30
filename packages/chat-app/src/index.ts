@@ -95,13 +95,10 @@ Available themes: light, dark, anthropic, claude, claude-dark`,
             print(`\n${colors.yellow}[Using tool: ${block.name}]${colors.reset}`, colors.yellow);
           }
         }
-      } else if (message.type === "tool_result") {
-        // Tool result - could show a preview indicator
-        print(`${colors.green}[Tool completed]${colors.reset}`, colors.green);
       } else if (message.type === "result") {
         // Query complete
-        if (message.subtype === "error") {
-          print(`\n${colors.yellow}Error: ${message.error}${colors.reset}`, colors.yellow);
+        if (message.subtype.startsWith("error")) {
+          print(`\n${colors.yellow}Error: ${message.subtype}${colors.reset}`, colors.yellow);
         }
       }
     }
