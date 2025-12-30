@@ -15,3 +15,4 @@ export * from './components/data-display/index.js';
 export * from './components/overlay/index.js';
 export * from './components/navigation/index.js';
 export * from './components/mcp/index.js';
+export * from './components/messaging/index.js';

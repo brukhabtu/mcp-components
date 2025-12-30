@@ -10,3 +10,4 @@ export * from './avatar.js';
 export * from './search-input.js';
 export * from './tag.js';
 export * from './drop-zone.js';
+export * from './icon-button.js';
