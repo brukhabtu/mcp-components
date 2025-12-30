@@ -210,62 +210,71 @@ export const darkTokens = css`
 
 export const anthropicTokens = css`
   :host([theme="anthropic"]), :host-context([data-theme="anthropic"]) {
-    /* Primary - Anthropic Orange */
-    --mcp-color-primary: #D97706;
-    --mcp-color-primary-hover: #F59E0B;
-    --mcp-color-primary-active: #FBBF24;
-    --mcp-color-primary-foreground: #ffffff;
-    --mcp-color-primary-muted: rgba(217, 119, 6, 0.15);
+    /* Official Anthropic Brand Colors
+       Source: https://github.com/anthropics/skills/tree/main/skills/brand-guidelines
+       Core: Dark #141413, Light #faf9f5, Mid Gray #b0aea5, Light Gray #e8e6dc
+       Accent: Orange #d97757, Blue #6a9bcc, Green #788c5d
+    */
 
-    /* Secondary - Stone */
-    --mcp-color-secondary: #78716c;
-    --mcp-color-secondary-hover: #a8a29e;
-    --mcp-color-secondary-active: #d6d3d1;
-    --mcp-color-secondary-foreground: #ffffff;
-    --mcp-color-secondary-muted: rgba(120, 113, 108, 0.15);
+    /* Primary - Anthropic Orange */
+    --mcp-color-primary: #d97757;
+    --mcp-color-primary-hover: #c4684a;
+    --mcp-color-primary-active: #b05a3e;
+    --mcp-color-primary-foreground: #faf9f5;
+    --mcp-color-primary-muted: rgba(217, 119, 87, 0.15);
+
+    /* Secondary - Anthropic Blue */
+    --mcp-color-secondary: #6a9bcc;
+    --mcp-color-secondary-hover: #5a8bbc;
+    --mcp-color-secondary-active: #4a7bac;
+    --mcp-color-secondary-foreground: #faf9f5;
+    --mcp-color-secondary-muted: rgba(106, 155, 204, 0.15);
 
     /* Tertiary */
-    --mcp-color-tertiary-hover: rgba(255, 255, 255, 0.05);
-    --mcp-color-tertiary-active: rgba(255, 255, 255, 0.1);
-    --mcp-color-tertiary-foreground: #FAFAF9;
+    --mcp-color-tertiary-hover: rgba(250, 249, 245, 0.08);
+    --mcp-color-tertiary-active: rgba(250, 249, 245, 0.12);
+    --mcp-color-tertiary-foreground: #faf9f5;
 
-    /* Success - Emerald */
-    --mcp-color-success: #10b981;
-    --mcp-color-success-hover: #34d399;
-    --mcp-color-success-active: #6ee7b7;
-    --mcp-color-success-foreground: #ffffff;
-    --mcp-color-success-muted: rgba(16, 185, 129, 0.15);
+    /* Success - Anthropic Green */
+    --mcp-color-success: #788c5d;
+    --mcp-color-success-hover: #697a51;
+    --mcp-color-success-active: #5a6946;
+    --mcp-color-success-foreground: #faf9f5;
+    --mcp-color-success-muted: rgba(120, 140, 93, 0.15);
 
-    /* Warning - Amber (same as primary for brand cohesion) */
-    --mcp-color-warning: #F59E0B;
-    --mcp-color-warning-hover: #FBBF24;
-    --mcp-color-warning-active: #FCD34D;
-    --mcp-color-warning-foreground: #1C1917;
-    --mcp-color-warning-muted: rgba(245, 158, 11, 0.15);
+    /* Warning - Warm variant of orange */
+    --mcp-color-warning: #e8a84c;
+    --mcp-color-warning-hover: #d99a40;
+    --mcp-color-warning-active: #ca8c35;
+    --mcp-color-warning-foreground: #141413;
+    --mcp-color-warning-muted: rgba(232, 168, 76, 0.15);
 
-    /* Error - Red */
-    --mcp-color-error: #DC2626;
-    --mcp-color-error-hover: #EF4444;
-    --mcp-color-error-active: #F87171;
-    --mcp-color-error-foreground: #ffffff;
-    --mcp-color-error-muted: rgba(220, 38, 38, 0.15);
+    /* Error - Red that complements the palette */
+    --mcp-color-error: #c45c5c;
+    --mcp-color-error-hover: #b34d4d;
+    --mcp-color-error-active: #a23f3f;
+    --mcp-color-error-foreground: #faf9f5;
+    --mcp-color-error-muted: rgba(196, 92, 92, 0.15);
 
-    /* Info - Uses primary orange */
-    --mcp-color-info: #D97706;
-    --mcp-color-info-hover: #F59E0B;
-    --mcp-color-info-active: #FBBF24;
-    --mcp-color-info-foreground: #ffffff;
-    --mcp-color-info-muted: rgba(217, 119, 6, 0.15);
+    /* Info - Anthropic Blue */
+    --mcp-color-info: #6a9bcc;
+    --mcp-color-info-hover: #5a8bbc;
+    --mcp-color-info-active: #4a7bac;
+    --mcp-color-info-foreground: #faf9f5;
+    --mcp-color-info-muted: rgba(106, 155, 204, 0.15);
 
-    /* Surfaces - Warm Stone Dark */
-    --mcp-color-background: #1C1917;
-    --mcp-color-foreground: #FAFAF9;
-    --mcp-color-ghost: #292524;
-    --mcp-color-ghost-foreground: #A8A29E;
-    --mcp-color-border: #44403C;
-    --mcp-color-border-hover: #57534E;
-    --mcp-color-backdrop: rgba(0, 0, 0, 0.7);
+    /* Surfaces - Official brand colors */
+    --mcp-color-background: #141413;
+    --mcp-color-foreground: #faf9f5;
+    --mcp-color-ghost: #1f1f1e;
+    --mcp-color-ghost-foreground: #b0aea5;
+    --mcp-color-border: #3a3a38;
+    --mcp-color-border-hover: #4a4a47;
+    --mcp-color-backdrop: rgba(20, 20, 19, 0.8);
 
+    /* Typography - Poppins for headings, Lora for body */
+    --mcp-font-family: 'Lora', Georgia, serif;
+    --mcp-font-family-heading: 'Poppins', Arial, sans-serif;
   }
 `;
 
