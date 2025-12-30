@@ -16,15 +16,12 @@ A terminal chat app built with the Claude Agent SDK that uses the MCP UI server 
 
 ## Prerequisites
 
-1. Build the MCP UI server first:
+1. **Claude Code** must be installed and authenticated (the Agent SDK uses Claude Code under the hood - no separate API key needed)
+
+2. Build the MCP UI server first:
    ```bash
    cd ../mcp-server
    npm install && npm run build
-   ```
-
-2. Set your Anthropic API key:
-   ```bash
-   export ANTHROPIC_API_KEY=your-key-here
    ```
 
 ## Installation
