@@ -278,6 +278,158 @@ export const anthropicTokens = css`
   }
 `;
 
+export const claudeAppTokens = css`
+  :host([theme="claude"]), :host-context([data-theme="claude"]) {
+    /* Claude App Light Theme
+       Source: https://www.assistant-ui.com/examples/claude
+       Warm, approachable design with serif typography
+    */
+
+    /* Primary - Claude Orange */
+    --mcp-color-primary: #ae5630;
+    --mcp-color-primary-hover: #9a4a29;
+    --mcp-color-primary-active: #863f22;
+    --mcp-color-primary-foreground: #ffffff;
+    --mcp-color-primary-muted: rgba(174, 86, 48, 0.1);
+
+    /* Secondary */
+    --mcp-color-secondary: #6b6a68;
+    --mcp-color-secondary-hover: #5a5958;
+    --mcp-color-secondary-active: #4a4948;
+    --mcp-color-secondary-foreground: #ffffff;
+    --mcp-color-secondary-muted: rgba(107, 106, 104, 0.1);
+
+    /* Tertiary */
+    --mcp-color-tertiary-hover: rgba(0, 0, 0, 0.05);
+    --mcp-color-tertiary-active: rgba(0, 0, 0, 0.08);
+    --mcp-color-tertiary-foreground: #1a1a18;
+
+    /* Success */
+    --mcp-color-success: #5d7a4a;
+    --mcp-color-success-hover: #4f6940;
+    --mcp-color-success-active: #425836;
+    --mcp-color-success-foreground: #ffffff;
+    --mcp-color-success-muted: rgba(93, 122, 74, 0.1);
+
+    /* Warning */
+    --mcp-color-warning: #c4923a;
+    --mcp-color-warning-hover: #b08232;
+    --mcp-color-warning-active: #9c732b;
+    --mcp-color-warning-foreground: #1a1a18;
+    --mcp-color-warning-muted: rgba(196, 146, 58, 0.1);
+
+    /* Error */
+    --mcp-color-error: #b54a4a;
+    --mcp-color-error-hover: #a13f3f;
+    --mcp-color-error-active: #8d3535;
+    --mcp-color-error-foreground: #ffffff;
+    --mcp-color-error-muted: rgba(181, 74, 74, 0.1);
+
+    /* Info */
+    --mcp-color-info: #4a7a9e;
+    --mcp-color-info-hover: #3f6a8a;
+    --mcp-color-info-active: #355a76;
+    --mcp-color-info-foreground: #ffffff;
+    --mcp-color-info-muted: rgba(74, 122, 158, 0.1);
+
+    /* Surfaces - Warm beige tones */
+    --mcp-color-background: #F5F5F0;
+    --mcp-color-foreground: #1a1a18;
+    --mcp-color-ghost: #DDD9CE;
+    --mcp-color-ghost-foreground: #6b6a68;
+    --mcp-color-border: rgba(0, 0, 0, 0.08);
+    --mcp-color-border-hover: rgba(0, 0, 0, 0.12);
+    --mcp-color-backdrop: rgba(0, 0, 0, 0.4);
+
+    /* Typography - Serif for refined reading */
+    --mcp-font-family: Georgia, 'Times New Roman', serif;
+
+    /* Claude-specific shadows */
+    --mcp-shadow-sm: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.025);
+    --mcp-shadow-md: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.035);
+    --mcp-shadow-lg: 0 0.5rem 2rem rgba(0, 0, 0, 0.05);
+
+    /* Smoother transitions */
+    --mcp-transition-normal: 300ms cubic-bezier(0.165, 0.85, 0.45, 1);
+  }
+`;
+
+export const claudeAppDarkTokens = css`
+  :host([theme="claude-dark"]), :host-context([data-theme="claude-dark"]) {
+    /* Claude App Dark Theme
+       Source: https://www.assistant-ui.com/examples/claude
+       Warm charcoal with consistent orange accent
+    */
+
+    /* Primary - Claude Orange (same in dark) */
+    --mcp-color-primary: #ae5630;
+    --mcp-color-primary-hover: #c4623a;
+    --mcp-color-primary-active: #d97044;
+    --mcp-color-primary-foreground: #ffffff;
+    --mcp-color-primary-muted: rgba(174, 86, 48, 0.15);
+
+    /* Secondary */
+    --mcp-color-secondary: #9a9893;
+    --mcp-color-secondary-hover: #aba9a5;
+    --mcp-color-secondary-active: #bcbab7;
+    --mcp-color-secondary-foreground: #1f1e1b;
+    --mcp-color-secondary-muted: rgba(154, 152, 147, 0.15);
+
+    /* Tertiary */
+    --mcp-color-tertiary-hover: rgba(255, 255, 255, 0.05);
+    --mcp-color-tertiary-active: rgba(255, 255, 255, 0.08);
+    --mcp-color-tertiary-foreground: #eeeeee;
+
+    /* Success */
+    --mcp-color-success: #7a9e6a;
+    --mcp-color-success-hover: #8aae7a;
+    --mcp-color-success-active: #9abe8a;
+    --mcp-color-success-foreground: #1f1e1b;
+    --mcp-color-success-muted: rgba(122, 158, 106, 0.15);
+
+    /* Warning */
+    --mcp-color-warning: #d4a24a;
+    --mcp-color-warning-hover: #e0b05a;
+    --mcp-color-warning-active: #ecbe6a;
+    --mcp-color-warning-foreground: #1f1e1b;
+    --mcp-color-warning-muted: rgba(212, 162, 74, 0.15);
+
+    /* Error */
+    --mcp-color-error: #c56a6a;
+    --mcp-color-error-hover: #d17a7a;
+    --mcp-color-error-active: #dd8a8a;
+    --mcp-color-error-foreground: #1f1e1b;
+    --mcp-color-error-muted: rgba(197, 106, 106, 0.15);
+
+    /* Info */
+    --mcp-color-info: #6a9abe;
+    --mcp-color-info-hover: #7aaace;
+    --mcp-color-info-active: #8abade;
+    --mcp-color-info-foreground: #1f1e1b;
+    --mcp-color-info-muted: rgba(106, 154, 190, 0.15);
+
+    /* Surfaces - Warm charcoal */
+    --mcp-color-background: #2b2a27;
+    --mcp-color-foreground: #eeeeee;
+    --mcp-color-ghost: #393937;
+    --mcp-color-ghost-foreground: #9a9893;
+    --mcp-color-border: rgba(255, 255, 255, 0.08);
+    --mcp-color-border-hover: rgba(255, 255, 255, 0.12);
+    --mcp-color-backdrop: rgba(0, 0, 0, 0.6);
+
+    /* Typography - Serif for refined reading */
+    --mcp-font-family: Georgia, 'Times New Roman', serif;
+
+    /* Claude-specific shadows (subtler in dark) */
+    --mcp-shadow-sm: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.15);
+    --mcp-shadow-md: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.2);
+    --mcp-shadow-lg: 0 0.5rem 2rem rgba(0, 0, 0, 0.25);
+
+    /* Smoother transitions */
+    --mcp-transition-normal: 300ms cubic-bezier(0.165, 0.85, 0.45, 1);
+  }
+`;
+
 export const resetStyles = css`
   *, *::before, *::after { box-sizing: border-box; }
   :host {
@@ -289,4 +441,4 @@ export const resetStyles = css`
   :host([hidden]) { display: none !important; }
 `;
 
-export const baseStyles = [tokens, darkTokens, anthropicTokens, resetStyles];
+export const baseStyles = [tokens, darkTokens, anthropicTokens, claudeAppTokens, claudeAppDarkTokens, resetStyles];
