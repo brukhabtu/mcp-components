@@ -7,3 +7,6 @@ export * from './select.js';
 export * from './checkbox.js';
 export * from './switch.js';
 export * from './avatar.js';
+export * from './search-input.js';
+export * from './tag.js';
+export * from './drop-zone.js';
