@@ -1,5 +1,6 @@
 /**
  * Component catalog - documentation for all mcp-components
+ * Organized by Atomic Design methodology
  */
 export const COMPONENT_CATALOG = {
   name: "@mcp/ui-components",
@@ -38,8 +39,8 @@ export const COMPONENT_CATALOG = {
     }
   },
 
-  components: {
-    // Primitives
+  // Atomic Design Structure
+  atoms: {
     button: {
       tag: "mcp-button",
       description: "A versatile button component",
@@ -93,6 +94,64 @@ export const COMPONENT_CATALOG = {
       example: '<mcp-input placeholder="Enter text..." label="Name"></mcp-input>'
     },
 
+    textarea: {
+      tag: "mcp-textarea",
+      description: "A multi-line text input",
+      props: {
+        placeholder: { type: "string" },
+        value: { type: "string" },
+        disabled: { type: "boolean", default: false },
+        rows: { type: "number", default: 3 },
+        label: { type: "string" }
+      },
+      events: ["mcp-input", "mcp-change"],
+      example: '<mcp-textarea placeholder="Enter description..." label="Bio"></mcp-textarea>'
+    },
+
+    select: {
+      tag: "mcp-select",
+      description: "A dropdown select input",
+      props: {
+        value: { type: "string" },
+        placeholder: { type: "string" },
+        disabled: { type: "boolean", default: false },
+        label: { type: "string" }
+      },
+      slots: {
+        default: "mcp-option elements"
+      },
+      events: ["mcp-change"],
+      example: '<mcp-select label="Country"><mcp-option value="us">United States</mcp-option></mcp-select>'
+    },
+
+    checkbox: {
+      tag: "mcp-checkbox",
+      description: "A checkbox input",
+      props: {
+        checked: { type: "boolean", default: false },
+        disabled: { type: "boolean", default: false },
+        label: { type: "string" },
+        indeterminate: { type: "boolean", default: false }
+      },
+      slots: { default: "Custom label content" },
+      events: ["mcp-change"],
+      example: '<mcp-checkbox label="Accept terms"></mcp-checkbox>'
+    },
+
+    switch: {
+      tag: "mcp-switch",
+      description: "A toggle switch",
+      props: {
+        checked: { type: "boolean", default: false },
+        disabled: { type: "boolean", default: false },
+        label: { type: "string" },
+        "label-position": { type: "string", options: ["left", "right"], default: "right" }
+      },
+      slots: { default: "Custom label content" },
+      events: ["mcp-change"],
+      example: '<mcp-switch label="Dark mode"></mcp-switch>'
+    },
+
     badge: {
       tag: "mcp-badge",
       description: "A small status indicator",
@@ -133,50 +192,81 @@ export const COMPONENT_CATALOG = {
       example: '<mcp-avatar name="John Doe" size="md"></mcp-avatar>'
     },
 
-    checkbox: {
-      tag: "mcp-checkbox",
-      description: "A checkbox input",
+    icon: {
+      tag: "mcp-icon",
+      description: "Icon wrapper component",
       props: {
-        checked: { type: "boolean", default: false },
-        disabled: { type: "boolean", default: false },
-        label: { type: "string" },
-        indeterminate: { type: "boolean", default: false }
+        name: { type: "string", description: "Icon name from icon set" },
+        size: { type: "string", options: ["xs", "sm", "md", "lg"], default: "md" }
       },
-      slots: { default: "Custom label content" },
-      events: ["mcp-change"],
-      example: '<mcp-checkbox label="Accept terms"></mcp-checkbox>'
+      slots: { default: "Custom SVG icon" },
+      example: '<mcp-icon name="check"></mcp-icon>'
     },
 
-    switch: {
-      tag: "mcp-switch",
-      description: "A toggle switch",
+    spinner: {
+      tag: "mcp-spinner",
+      description: "Loading spinner indicator",
       props: {
-        checked: { type: "boolean", default: false },
-        disabled: { type: "boolean", default: false },
-        label: { type: "string" },
-        "label-position": { type: "string", options: ["left", "right"], default: "right" }
+        size: { type: "string", options: ["sm", "md", "lg"], default: "md" }
       },
-      slots: { default: "Custom label content" },
-      events: ["mcp-change"],
-      example: '<mcp-switch label="Dark mode"></mcp-switch>'
+      example: '<mcp-spinner size="md"></mcp-spinner>'
     },
 
-    // Layout
-    card: {
-      tag: "mcp-card",
-      description: "A container card",
-      slots: {
-        header: "Card header content",
-        default: "Card body content",
-        footer: "Card footer content"
+    progress: {
+      tag: "mcp-progress",
+      description: "Progress bar indicator",
+      props: {
+        value: { type: "number", default: 0 },
+        max: { type: "number", default: 100 },
+        variant: { type: "string", options: ["default", "success", "warning", "error"], default: "default" }
       },
-      example: `<mcp-card>
-  <span slot="header">Title</span>
-  Card content here
-</mcp-card>`
+      example: '<mcp-progress value="60" max="100"></mcp-progress>'
     },
 
-    // Feedback
+    skeleton: {
+      tag: "mcp-skeleton",
+      description: "Placeholder loading skeleton",
+      props: {
+        variant: { type: "string", options: ["text", "circle", "rect"], default: "text" },
+        width: { type: "string" },
+        height: { type: "string" }
+      },
+      example: '<mcp-skeleton variant="text" width="200px"></mcp-skeleton>'
+    },
+
+    divider: {
+      tag: "mcp-divider",
+      description: "Visual separator",
+      props: {
+        orientation: { type: "string", options: ["horizontal", "vertical"], default: "horizontal" }
+      },
+      example: '<mcp-divider></mcp-divider>'
+    },
+
+    tooltip: {
+      tag: "mcp-tooltip",
+      description: "Tooltip on hover",
+      props: {
+        content: { type: "string" },
+        position: { type: "string", options: ["top", "right", "bottom", "left"], default: "top" }
+      },
+      slots: { default: "Trigger element" },
+      example: '<mcp-tooltip content="More info"><mcp-button>Hover me</mcp-button></mcp-tooltip>'
+    },
+
+    code: {
+      tag: "mcp-code",
+      description: "Code display with syntax highlighting",
+      props: {
+        language: { type: "string" },
+        inline: { type: "boolean", default: false }
+      },
+      slots: { default: "Code content" },
+      example: '<mcp-code language="javascript">const x = 1;</mcp-code>'
+    }
+  },
+
+  molecules: {
     alert: {
       tag: "mcp-alert",
       description: "An alert/notification banner",
@@ -209,6 +299,207 @@ export const COMPONENT_CATALOG = {
         action: "Action button"
       },
       events: ["mcp-dismiss"]
+    },
+
+    "search-input": {
+      tag: "mcp-search-input",
+      description: "Search input with icon and clear button",
+      props: {
+        value: { type: "string" },
+        placeholder: { type: "string", default: "Search..." },
+        disabled: { type: "boolean", default: false }
+      },
+      slots: {
+        icon: "Custom search icon",
+        clear: "Custom clear button"
+      },
+      events: ["mcp-input", "mcp-clear"],
+      example: '<mcp-search-input placeholder="Search components..."></mcp-search-input>'
+    },
+
+    "drop-zone": {
+      tag: "mcp-drop-zone",
+      description: "Drag and drop file upload area",
+      props: {
+        accept: { type: "string", description: "Accepted file types" },
+        multiple: { type: "boolean", default: false },
+        disabled: { type: "boolean", default: false }
+      },
+      events: ["mcp-drop", "mcp-files-selected"],
+      example: '<mcp-drop-zone accept="image/*" multiple></mcp-drop-zone>'
+    },
+
+    popover: {
+      tag: "mcp-popover",
+      description: "Popover/dropdown content",
+      props: {
+        open: { type: "boolean", default: false },
+        position: { type: "string", options: ["top", "right", "bottom", "left"], default: "bottom" }
+      },
+      slots: {
+        trigger: "Trigger element",
+        default: "Popover content"
+      },
+      example: '<mcp-popover><mcp-button slot="trigger">Open</mcp-button>Content here</mcp-popover>'
+    }
+  },
+
+  organisms: {
+    card: {
+      tag: "mcp-card",
+      description: "A container card with header/body/footer",
+      slots: {
+        header: "Card header content",
+        default: "Card body content",
+        footer: "Card footer content"
+      },
+      example: `<mcp-card>
+  <span slot="header">Title</span>
+  Card content here
+</mcp-card>`
+    },
+
+    modal: {
+      tag: "mcp-modal",
+      description: "A modal dialog overlay",
+      props: {
+        open: { type: "boolean", default: false },
+        size: { type: "string", options: ["sm", "md", "lg", "xl"], default: "md" }
+      },
+      slots: {
+        header: "Modal header",
+        default: "Modal body",
+        footer: "Modal footer"
+      },
+      events: ["mcp-close"],
+      example: '<mcp-modal open><span slot="header">Confirm</span>Are you sure?</mcp-modal>'
+    },
+
+    accordion: {
+      tag: "mcp-accordion",
+      description: "Collapsible accordion container",
+      props: {
+        multiple: { type: "boolean", default: false }
+      },
+      slots: { default: "mcp-accordion-item elements" },
+      example: '<mcp-accordion><mcp-accordion-item title="Section 1">Content</mcp-accordion-item></mcp-accordion>'
+    },
+
+    tabs: {
+      tag: "mcp-tabs",
+      description: "Tabbed content container",
+      props: {
+        value: { type: "string", description: "Active tab value" }
+      },
+      slots: { default: "mcp-tab and mcp-tab-panel elements" },
+      events: ["mcp-change"],
+      example: '<mcp-tabs><mcp-tab value="1">Tab 1</mcp-tab><mcp-tab-panel value="1">Content</mcp-tab-panel></mcp-tabs>'
+    },
+
+    menu: {
+      tag: "mcp-menu",
+      description: "Dropdown menu with items",
+      slots: {
+        trigger: "Menu trigger",
+        default: "mcp-menu-item, mcp-menu-group, mcp-menu-divider"
+      },
+      example: '<mcp-menu><mcp-button slot="trigger">Menu</mcp-button><mcp-menu-item>Item 1</mcp-menu-item></mcp-menu>'
+    },
+
+    list: {
+      tag: "mcp-list",
+      description: "List container for list items",
+      props: {
+        borderless: { type: "boolean", default: false }
+      },
+      slots: { default: "mcp-list-item elements" },
+      example: '<mcp-list><mcp-list-item title="Item 1" description="Description"></mcp-list-item></mcp-list>'
+    },
+
+    table: {
+      tag: "mcp-table",
+      description: "Data table with headers and rows",
+      props: {
+        striped: { type: "boolean", default: false },
+        hoverable: { type: "boolean", default: true }
+      },
+      slots: { default: "Table content (thead, tbody)" },
+      example: '<mcp-table striped><thead>...</thead><tbody>...</tbody></mcp-table>'
+    },
+
+    stepper: {
+      tag: "mcp-stepper",
+      description: "Step-by-step progress indicator",
+      props: {
+        activeStep: { type: "number", default: 0 },
+        orientation: { type: "string", options: ["horizontal", "vertical"], default: "horizontal" }
+      },
+      slots: { default: "mcp-step elements" },
+      example: '<mcp-stepper active-step="1"><mcp-step title="Step 1"></mcp-step></mcp-stepper>'
+    },
+
+    breadcrumb: {
+      tag: "mcp-breadcrumb",
+      description: "Breadcrumb navigation",
+      slots: { default: "mcp-breadcrumb-item elements" },
+      example: '<mcp-breadcrumb><mcp-breadcrumb-item href="/">Home</mcp-breadcrumb-item></mcp-breadcrumb>'
+    },
+
+    pagination: {
+      tag: "mcp-pagination",
+      description: "Page navigation controls",
+      props: {
+        total: { type: "number" },
+        page: { type: "number", default: 1 },
+        pageSize: { type: "number", default: 10 }
+      },
+      events: ["mcp-page-change"],
+      example: '<mcp-pagination total="100" page="1" page-size="10"></mcp-pagination>'
+    },
+
+    empty: {
+      tag: "mcp-empty",
+      description: "Empty state placeholder",
+      props: {
+        title: { type: "string" },
+        description: { type: "string" }
+      },
+      slots: {
+        icon: "Empty state icon",
+        action: "Action button"
+      },
+      example: '<mcp-empty title="No results" description="Try a different search"></mcp-empty>'
+    },
+
+    stack: {
+      tag: "mcp-stack",
+      description: "Flexbox stack layout (also mcp-hstack, mcp-vstack)",
+      props: {
+        direction: { type: "string", options: ["row", "column", "row-reverse", "column-reverse"], default: "column" },
+        gap: { type: "string" },
+        align: { type: "string", options: ["start", "center", "end", "stretch", "baseline"] },
+        justify: { type: "string", options: ["start", "center", "end", "between", "around", "evenly"] }
+      },
+      slots: { default: "Stack children" },
+      example: '<mcp-vstack gap="var(--mcp-space-4)"><mcp-button>A</mcp-button><mcp-button>B</mcp-button></mcp-vstack>'
+    },
+
+    grid: {
+      tag: "mcp-grid",
+      description: "CSS Grid layout container",
+      props: {
+        columns: { type: "number", default: 1 },
+        gap: { type: "string" }
+      },
+      slots: { default: "Grid children" },
+      example: '<mcp-grid columns="3" gap="var(--mcp-space-4)">...</mcp-grid>'
+    },
+
+    "key-value": {
+      tag: "mcp-key-value",
+      description: "Key-value pairs display",
+      slots: { default: "mcp-key-value-item elements" },
+      example: '<mcp-key-value><mcp-key-value-item key="Name" value="John"></mcp-key-value-item></mcp-key-value>'
     },
 
     // Messaging
@@ -263,6 +554,55 @@ export const COMPONENT_CATALOG = {
         avatar: "Avatar of person typing",
         label: "Typing label (e.g., 'Alice is typing...')"
       }
+    },
+
+    // MCP-specific
+    "chat-message": {
+      tag: "mcp-chat-message",
+      description: "AI assistant chat message with tool calls",
+      props: {
+        role: { type: "string", options: ["user", "assistant", "system"], default: "assistant" },
+        timestamp: { type: "string" }
+      },
+      slots: {
+        avatar: "Assistant avatar",
+        default: "Message content",
+        tools: "Tool call displays"
+      }
+    },
+
+    "tool-call": {
+      tag: "mcp-tool-call",
+      description: "Tool call visualization",
+      props: {
+        name: { type: "string", description: "Tool name" },
+        status: { type: "string", options: ["pending", "running", "success", "error"], default: "pending" },
+        duration: { type: "string" }
+      },
+      slots: {
+        input: "Tool input display",
+        output: "Tool output display"
+      }
+    },
+
+    "server-status": {
+      tag: "mcp-server-status",
+      description: "MCP server connection status",
+      props: {
+        name: { type: "string" },
+        status: { type: "string", options: ["connected", "connecting", "disconnected", "error"], default: "disconnected" },
+        tools: { type: "number", default: 0 },
+        resources: { type: "number", default: 0 }
+      }
+    },
+
+    toaster: {
+      tag: "mcp-toaster",
+      description: "Toast notification container",
+      props: {
+        position: { type: "string", options: ["top-left", "top-center", "top-right", "bottom-left", "bottom-center", "bottom-right"], default: "bottom-right" }
+      },
+      methods: ["toast(options)"]
     }
   }
 };
@@ -271,5 +611,23 @@ export const COMPONENT_CATALOG = {
  * Get documentation for a specific component
  */
 export function getComponentDocs(componentName: string) {
-  return COMPONENT_CATALOG.components[componentName as keyof typeof COMPONENT_CATALOG.components];
+  // Search in all categories
+  const categories = ['atoms', 'molecules', 'organisms'] as const;
+  for (const category of categories) {
+    const components = COMPONENT_CATALOG[category];
+    if (componentName in components) {
+      return {
+        ...components[componentName as keyof typeof components],
+        category
+      };
+    }
+  }
+  return undefined;
+}
+
+/**
+ * Get all components by category
+ */
+export function getComponentsByCategory(category: 'atoms' | 'molecules' | 'organisms') {
+  return COMPONENT_CATALOG[category];
 }
