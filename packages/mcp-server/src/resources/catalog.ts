@@ -614,10 +614,10 @@ export function getComponentDocs(componentName: string) {
   // Search in all categories
   const categories = ['atoms', 'molecules', 'organisms'] as const;
   for (const category of categories) {
-    const components = COMPONENT_CATALOG[category];
+    const components = COMPONENT_CATALOG[category] as Record<string, unknown>;
     if (componentName in components) {
       return {
-        ...components[componentName as keyof typeof components],
+        ...(components[componentName] as object),
         category
       };
     }

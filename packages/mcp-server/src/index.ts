@@ -143,8 +143,14 @@ server.resource(
   })
 );
 
-// Resource: Individual component docs
-for (const [name, docs] of Object.entries(COMPONENT_CATALOG.components)) {
+// Resource: Individual component docs (from all Atomic Design levels)
+const allComponents = {
+  ...COMPONENT_CATALOG.atoms,
+  ...COMPONENT_CATALOG.molecules,
+  ...COMPONENT_CATALOG.organisms
+};
+
+for (const [name, docs] of Object.entries(allComponents)) {
   server.resource(
     `component-${name}`,
     `mcp-ui://components/${name}`,
