@@ -34,7 +34,7 @@ export class McpCheckbox extends LitElement {
       }
 
       label.disabled {
-        opacity: 0.5;
+        opacity: var(--mcp-opacity-disabled);
         cursor: not-allowed;
       }
 
@@ -85,7 +85,7 @@ export class McpCheckbox extends LitElement {
       }
 
       label:focus-within .checkbox {
-        box-shadow: 0 0 0 3px rgb(99 102 241 / 0.2);
+        box-shadow: 0 0 0 3px var(--mcp-color-primary-muted);
       }
 
       .error-text {

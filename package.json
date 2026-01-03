@@ -43,6 +43,7 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
+    "build:bundle": "vite build --config vite.bundle.config.ts",
     "build:showcase": "vite build",
     "dev": "vite demo",
     "analyze": "cem analyze --litelement",

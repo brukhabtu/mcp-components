@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { componentSchemas, generateComponent, generatePage } from "./tools/components.js";
+import { componentSchemas, generateComponent } from "./tools/components.js";
 import { COMPONENT_CATALOG, getComponentDocs } from "./resources/catalog.js";
 import { UI_PROMPTS } from "./prompts/ui-patterns.js";
 
@@ -40,91 +40,6 @@ server.tool(
   }
 );
 
-// Tool: Render a complete page/layout
-server.tool(
-  "render_page",
-  {
-    title: z.string().describe("Page title"),
-    theme: z.enum(["light", "dark", "anthropic", "claude", "claude-dark"]).default("light"),
-    components: z.array(z.object({
-      component: z.string(),
-      props: z.record(z.any()).optional(),
-      children: z.string().optional(),
-      slot: z.record(z.string()).optional()
-    })).describe("Array of components to render")
-  },
-  async ({ title, theme, components }) => {
-    const html = generatePage(title, theme, components);
-    return {
-      content: [{
-        type: "text",
-        text: html
-      }]
-    };
-  }
-);
-
-// Tool: Generate a chat interface
-server.tool(
-  "render_chat",
-  {
-    messages: z.array(z.object({
-      align: z.enum(["start", "end"]).default("start"),
-      variant: z.enum(["default", "ghost", "bubble"]).default("bubble"),
-      content: z.string(),
-      avatar: z.string().optional(),
-      status: z.enum(["sending", "sent", "delivered", "read", "error"]).optional(),
-      timestamp: z.string().optional()
-    })).describe("Chat messages to render"),
-    showInput: z.boolean().default(true).describe("Show message input"),
-    showTyping: z.boolean().default(false).describe("Show typing indicator"),
-    theme: z.enum(["light", "dark", "claude", "claude-dark"]).default("light")
-  },
-  async ({ messages, showInput, showTyping, theme }) => {
-    const messageHtml = messages.map(msg => {
-      const avatar = msg.avatar
-        ? `<mcp-avatar slot="avatar" name="${msg.avatar}" size="sm"></mcp-avatar>`
-        : '';
-      const status = msg.status ? `status="${msg.status}"` : '';
-      const timestamp = msg.timestamp ? `timestamp="${msg.timestamp}"` : '';
-
-      return `<mcp-message align="${msg.align}" variant="${msg.variant}" ${status} ${timestamp}>
-        ${avatar}
-        ${msg.content}
-      </mcp-message>`;
-    }).join('\n      ');
-
-    const typingHtml = showTyping ? `
-      <mcp-message-typing>
-        <mcp-avatar slot="avatar" name="AI" size="sm"></mcp-avatar>
-      </mcp-message-typing>` : '';
-
-    const inputHtml = showInput ? `
-      <mcp-message-input placeholder="Type a message...">
-        <mcp-icon-button slot="end" variant="primary" size="sm" label="Send">
-          <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </mcp-icon-button>
-      </mcp-message-input>` : '';
-
-    const html = generatePage("Chat", theme, [], `
-    <div style="display: flex; flex-direction: column; height: 100vh; max-width: 600px; margin: 0 auto;">
-      <div style="flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
-        ${messageHtml}
-        ${typingHtml}
-      </div>
-      <div style="padding: 1rem; border-top: 1px solid var(--mcp-color-border);">
-        ${inputHtml}
-      </div>
-    </div>`);
-
-    return {
-      content: [{
-        type: "text",
-        text: html
-      }]
-    };
-  }
-);
 
 // ============================================
 // RESOURCES - Component documentation

@@ -55,7 +55,7 @@ export class McpTextarea extends LitElement {
       textarea:focus {
         outline: none;
         border-color: var(--mcp-color-primary);
-        box-shadow: 0 0 0 3px rgb(99 102 241 / 0.1);
+        box-shadow: 0 0 0 3px var(--mcp-color-primary-muted);
       }
 
       textarea.error {
@@ -63,11 +63,11 @@ export class McpTextarea extends LitElement {
       }
 
       textarea.error:focus {
-        box-shadow: 0 0 0 3px rgb(239 68 68 / 0.1);
+        box-shadow: 0 0 0 3px var(--mcp-color-error-muted);
       }
 
       textarea:disabled {
-        opacity: 0.5;
+        opacity: var(--mcp-opacity-disabled);
         cursor: not-allowed;
         background: var(--mcp-color-ghost);
       }

@@ -1,10 +1,22 @@
 import { LitElement, html, css, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
 import { baseStyles } from '../../styles/index.js';
+import '../atoms/avatar.js';
 
 export type MessageRole = 'user' | 'assistant' | 'system' | 'tool';
 
+/**
+ * An AI chat message component that composes mcp-message internally.
+ * Adds role-based styling, avatars, and copy functionality on top of
+ * the generic mcp-message component.
+ *
+ * @slot - Message content
+ * @slot avatar - Custom avatar (overrides default role-based avatar)
+ *
+ * @csspart message - The underlying mcp-message component
+ * @csspart avatar - The avatar container
+ * @csspart content - The content area
+ */
 @customElement('mcp-chat-message')
 export class McpChatMessage extends LitElement {
   static styles = [
@@ -14,83 +26,53 @@ export class McpChatMessage extends LitElement {
         display: block;
       }
 
-      .message {
+      /* Role-specific backgrounds - applied to host for full-width effect */
+      :host([role="user"]) {
+        background: var(--mcp-color-ghost);
+      }
+
+      :host([role="assistant"]) {
+        background: var(--mcp-color-background);
+      }
+
+      :host([role="system"]) {
+        background: var(--mcp-color-info-muted);
+        border-left: 3px solid var(--mcp-color-info);
+      }
+
+      :host([role="tool"]) {
+        background: var(--mcp-color-success-muted);
+        border-left: 3px solid var(--mcp-color-success);
+      }
+
+      .wrapper {
         display: flex;
         gap: var(--mcp-space-3);
         padding: var(--mcp-space-4);
       }
 
-      .message.role-user {
-        background: var(--mcp-color-ghost);
-      }
-
-      .message.role-assistant {
-        background: var(--mcp-color-background);
-      }
-
-      .message.role-system {
-        background: rgb(59 130 246 / 0.05);
-        border-left: 3px solid var(--mcp-color-info);
-      }
-
-      .message.role-tool {
-        background: rgb(34 197 94 / 0.05);
-        border-left: 3px solid var(--mcp-color-success);
-      }
-
+      /* Avatar styling */
       .avatar {
         flex-shrink: 0;
       }
 
-      .avatar-icon {
-        width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: var(--mcp-font-size-sm);
-        font-weight: var(--mcp-font-weight-medium);
+      mcp-avatar {
+        --avatar-size: 2rem;
       }
 
-      .role-user .avatar-icon {
-        background: var(--mcp-color-primary);
-        color: var(--mcp-color-primary-foreground);
-      }
-
-      .role-assistant .avatar-icon {
-        background: var(--mcp-color-secondary);
-        color: var(--mcp-color-secondary-foreground);
-      }
-
-      .role-system .avatar-icon {
-        background: var(--mcp-color-info);
-        color: var(--mcp-color-info-foreground);
-      }
-
-      .role-tool .avatar-icon {
-        background: var(--mcp-color-success);
-        color: var(--mcp-color-success-foreground);
-      }
-
-      .avatar-icon svg {
-        width: 1rem;
-        height: 1rem;
-        stroke: currentColor;
-        stroke-width: 2;
-        fill: none;
-      }
-
+      /* Content area */
       .content {
         flex: 1;
         min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--mcp-space-2);
       }
 
       .header {
         display: flex;
         align-items: center;
         gap: var(--mcp-space-2);
-        margin-bottom: var(--mcp-space-2);
       }
 
       .role-label {
@@ -119,6 +101,7 @@ export class McpChatMessage extends LitElement {
         margin-bottom: 0;
       }
 
+      /* Loading animation */
       .loading {
         display: flex;
         gap: var(--mcp-space-1);
@@ -140,10 +123,10 @@ export class McpChatMessage extends LitElement {
         40% { transform: scale(1); }
       }
 
+      /* Actions */
       .actions {
         display: flex;
         gap: var(--mcp-space-2);
-        margin-top: var(--mcp-space-3);
       }
 
       .copy-btn {
@@ -175,23 +158,34 @@ export class McpChatMessage extends LitElement {
     `
   ];
 
-  @property({ type: String }) role: MessageRole = 'assistant';
+  @property({ type: String, reflect: true }) role: MessageRole = 'assistant';
   @property({ type: String }) timestamp = '';
   @property({ type: Boolean }) loading = false;
   @property({ type: Boolean }) copyable = true;
 
   @state() private _copied = false;
 
+  /** Get role-specific avatar variant */
+  private get _avatarVariant(): 'primary' | 'secondary' | 'info' | 'success' {
+    switch (this.role) {
+      case 'user': return 'primary';
+      case 'assistant': return 'secondary';
+      case 'system': return 'info';
+      case 'tool': return 'success';
+    }
+  }
+
+  /** Get role-specific icon */
   private get _roleIcon() {
     switch (this.role) {
       case 'user':
-        return html`<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+        return html`<svg viewBox="0 0 24 24" style="width:1rem;height:1rem;stroke:currentColor;stroke-width:2;fill:none;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
       case 'assistant':
-        return html`<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>`;
+        return html`<svg viewBox="0 0 24 24" style="width:1rem;height:1rem;stroke:currentColor;stroke-width:2;fill:none;"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>`;
       case 'system':
-        return html`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`;
+        return html`<svg viewBox="0 0 24 24" style="width:1rem;height:1rem;stroke:currentColor;stroke-width:2;fill:none;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`;
       case 'tool':
-        return html`<svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`;
+        return html`<svg viewBox="0 0 24 24" style="width:1rem;height:1rem;stroke:currentColor;stroke-width:2;fill:none;"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`;
     }
   }
 
@@ -207,19 +201,16 @@ export class McpChatMessage extends LitElement {
   }
 
   render() {
-    const messageClasses = {
-      message: true,
-      [`role-${this.role}`]: true,
-    };
-
     return html`
-      <div class=${classMap(messageClasses)}>
-        <div class="avatar">
+      <div class="wrapper">
+        <div class="avatar" part="avatar">
           <slot name="avatar">
-            <div class="avatar-icon">${this._roleIcon}</div>
+            <mcp-avatar variant=${this._avatarVariant} size="md">
+              ${this._roleIcon}
+            </mcp-avatar>
           </slot>
         </div>
-        <div class="content">
+        <div class="content" part="content">
           <div class="header">
             <span class="role-label">${this.role}</span>
             ${this.timestamp ? html`<span class="timestamp">${this.timestamp}</span>` : nothing}

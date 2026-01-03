@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { baseStyles } from '../../styles/index.js';
 
-export type TagVariant = 'ghost' | 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info';
+export type TagVariant = 'ghost' | 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'error' | 'info';
 export type TagSize = 'sm' | 'md' | 'lg';
 
 /**
@@ -14,8 +14,8 @@ export type TagSize = 'sm' | 'md' | 'lg';
  * @slot icon - Optional icon before the label
  * @slot remove - Custom remove button (overrides default X button when removable)
  *
+ * @fires click - Native click event (if clickable)
  * @fires mcp-remove - When the remove button is clicked
- * @fires mcp-click - When the tag itself is clicked (if clickable)
  *
  * @csspart tag - The tag container
  * @csspart remove-button - The remove button container
@@ -72,6 +72,12 @@ export class McpTag extends LitElement {
         background: var(--mcp-color-secondary-muted);
         color: var(--mcp-color-secondary);
         border-color: var(--mcp-color-secondary);
+      }
+
+      .variant-tertiary {
+        background: var(--mcp-color-tertiary-hover);
+        color: var(--mcp-color-tertiary-foreground);
+        border-color: var(--mcp-color-border);
       }
 
       .variant-success {
@@ -205,12 +211,11 @@ export class McpTag extends LitElement {
   @property({ type: Boolean }) clickable = false;
   @property({ type: Boolean }) disabled = false;
 
-  private _handleClick() {
-    if (this.disabled || !this.clickable) return;
-    this.dispatchEvent(new CustomEvent('mcp-click', {
-      bubbles: true,
-      composed: true,
-    }));
+  private _handleClick(e: Event) {
+    if (this.disabled || !this.clickable) {
+      e.stopPropagation();
+    }
+    // Native click event bubbles naturally when clickable
   }
 
   private _handleRemove(e: Event) {
@@ -238,7 +243,7 @@ export class McpTag extends LitElement {
         role=${this.clickable ? 'button' : 'status'}
         tabindex=${this.clickable && !this.disabled ? '0' : '-1'}
         @click=${this._handleClick}
-        @keydown=${(e: KeyboardEvent) => e.key === 'Enter' && this._handleClick()}
+        @keydown=${(e: KeyboardEvent) => e.key === 'Enter' && this._handleClick(e)}
       >
         <slot name="icon"></slot>
         <slot></slot>

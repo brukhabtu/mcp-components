@@ -76,9 +76,9 @@ export const Removable: Story = {
 export const Clickable: Story = {
   render: () => html`
     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-      <mcp-tag variant="ghost" clickable @mcp-click=${() => console.log('Clicked: All')}>All</mcp-tag>
-      <mcp-tag variant="primary" clickable @mcp-click=${() => console.log('Clicked: Active')}>Active</mcp-tag>
-      <mcp-tag variant="ghost" clickable @mcp-click=${() => console.log('Clicked: Completed')}>Completed</mcp-tag>
+      <mcp-tag variant="ghost" clickable @click=${() => console.log('Clicked: All')}>All</mcp-tag>
+      <mcp-tag variant="primary" clickable @click=${() => console.log('Clicked: Active')}>Active</mcp-tag>
+      <mcp-tag variant="ghost" clickable @click=${() => console.log('Clicked: Completed')}>Completed</mcp-tag>
     </div>
   `,
 };

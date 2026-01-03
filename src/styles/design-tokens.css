@@ -177,3 +177,75 @@
    */
   --mcp-opacity-disabled: 0.5;
 }
+
+/* Anthropic Theme - Official Brand Colors */
+[data-theme="anthropic"] {
+  /* Primary - Anthropic Orange */
+  --mcp-color-primary: #d97757;
+  --mcp-color-primary-hover: #c4684a;
+  --mcp-color-primary-active: #b05a3e;
+  --mcp-color-primary-foreground: #faf9f5;
+  --mcp-color-primary-muted: rgba(217, 119, 87, 0.15);
+
+  /* Secondary - Anthropic Blue */
+  --mcp-color-secondary: #6a9bcc;
+  --mcp-color-secondary-hover: #5a8bbc;
+  --mcp-color-secondary-active: #4a7bac;
+  --mcp-color-secondary-foreground: #faf9f5;
+  --mcp-color-secondary-muted: rgba(106, 155, 204, 0.15);
+
+  /* Tertiary */
+  --mcp-color-tertiary-hover: rgba(250, 249, 245, 0.08);
+  --mcp-color-tertiary-active: rgba(250, 249, 245, 0.12);
+  --mcp-color-tertiary-foreground: #faf9f5;
+
+  /* Ghost */
+  --mcp-color-ghost: #1f1f1e;
+  --mcp-color-ghost-foreground: #b0aea5;
+
+  /* Success - Anthropic Green */
+  --mcp-color-success: #788c5d;
+  --mcp-color-success-hover: #697a51;
+  --mcp-color-success-active: #5a6946;
+  --mcp-color-success-foreground: #faf9f5;
+  --mcp-color-success-muted: rgba(120, 140, 93, 0.15);
+
+  /* Warning */
+  --mcp-color-warning: #e8a84c;
+  --mcp-color-warning-hover: #d99a40;
+  --mcp-color-warning-active: #ca8c35;
+  --mcp-color-warning-foreground: #141413;
+  --mcp-color-warning-muted: rgba(232, 168, 76, 0.15);
+
+  /* Error */
+  --mcp-color-error: #c45c5c;
+  --mcp-color-error-hover: #b34d4d;
+  --mcp-color-error-active: #a23f3f;
+  --mcp-color-error-foreground: #faf9f5;
+  --mcp-color-error-muted: rgba(196, 92, 92, 0.15);
+
+  /* Info - Anthropic Blue */
+  --mcp-color-info: #6a9bcc;
+  --mcp-color-info-hover: #5a8bbc;
+  --mcp-color-info-active: #4a7bac;
+  --mcp-color-info-foreground: #faf9f5;
+  --mcp-color-info-muted: rgba(106, 155, 204, 0.15);
+
+  /* Surfaces - Official brand colors */
+  --mcp-color-background: #141413;
+  --mcp-color-foreground: #faf9f5;
+  --mcp-color-border: #3a3a38;
+  --mcp-color-border-hover: #4a4a48;
+  --mcp-color-muted-foreground: #b0aea5;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --mcp-color-background: #0f172a;
+  --mcp-color-foreground: #f8fafc;
+  --mcp-color-ghost: #1e293b;
+  --mcp-color-ghost-foreground: #94a3b8;
+  --mcp-color-border: #334155;
+  --mcp-color-border-hover: #475569;
+  --mcp-color-muted-foreground: #94a3b8;
+}

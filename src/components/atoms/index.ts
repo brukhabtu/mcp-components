@@ -9,7 +9,6 @@ export * from './icon-button.js';
 export * from './icon.js';
 export * from './input.js';
 export * from './progress.js';
-export * from './select.js';
 export * from './skeleton.js';
 export * from './spinner.js';
 export * from './switch.js';

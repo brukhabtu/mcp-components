@@ -2,6 +2,7 @@ import { LitElement, html, css, nothing } from 'lit';
 import { customElement, property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { baseStyles } from '../../styles/index.js';
+import '../atoms/icon-button.js';
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
@@ -70,33 +71,6 @@ export class McpModal extends LitElement {
         margin: 0;
       }
 
-      .close-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 2rem;
-        height: 2rem;
-        border: none;
-        background: transparent;
-        border-radius: var(--mcp-radius-md);
-        cursor: pointer;
-        color: var(--mcp-color-ghost-foreground);
-        transition: all var(--mcp-transition-fast);
-      }
-
-      .close-btn:hover {
-        background: var(--mcp-color-ghost);
-        color: var(--mcp-color-foreground);
-      }
-
-      .close-btn svg {
-        width: 1.25rem;
-        height: 1.25rem;
-        stroke: currentColor;
-        stroke-width: 2;
-        fill: none;
-      }
-
       .body {
         flex: 1;
         overflow-y: auto;
@@ -151,7 +125,7 @@ export class McpModal extends LitElement {
   };
 
   private _close() {
-    this.dispatchEvent(new CustomEvent('mcp-dismiss', { bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('mcp-close', { bubbles: true, composed: true }));
   }
 
   render() {
@@ -166,9 +140,14 @@ export class McpModal extends LitElement {
               ${this.title || html`<slot name="title"></slot>`}
             </h2>
             ${!this.hideCloseButton ? html`
-              <button class="close-btn" @click=${this._close} aria-label="Close">
+              <mcp-icon-button
+                variant="ghost"
+                size="sm"
+                label="Close"
+                @click=${this._close}
+              >
                 <svg viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
-              </button>
+              </mcp-icon-button>
             ` : nothing}
           </div>
           <div class="body">

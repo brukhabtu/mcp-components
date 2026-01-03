@@ -2,9 +2,26 @@ import { LitElement, html, css, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { baseStyles } from '../../styles/index.js';
+import '../atoms/icon-button.js';
+import '../atoms/code.js';
 
 export type ToolCallStatus = 'pending' | 'running' | 'success' | 'error';
 
+/**
+ * A collapsible panel for displaying tool/function call details.
+ * Composable with slots for customization.
+ *
+ * @slot icon - Custom status icon (overrides default)
+ * @slot header-end - Content at the end of header (e.g., actions)
+ * @slot sections - Additional custom sections
+ *
+ * @fires mcp-copy - When copy button is clicked, detail: { content: string, type: 'input' | 'output' }
+ *
+ * @csspart header - The header container
+ * @csspart title - The tool name
+ * @csspart section - Each collapsible section
+ * @csspart content - Section content area
+ */
 @customElement('mcp-tool-call')
 export class McpToolCall extends LitElement {
   static styles = [
@@ -12,12 +29,14 @@ export class McpToolCall extends LitElement {
     css`
       :host {
         display: block;
+        max-width: 100%;
       }
 
       .tool-call {
         border: 1px solid var(--mcp-color-border);
         border-radius: var(--mcp-radius-lg);
         overflow: hidden;
+        max-width: 100%;
       }
 
       .header {
@@ -99,33 +118,6 @@ export class McpToolCall extends LitElement {
         gap: var(--mcp-space-2);
       }
 
-      .icon-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 1.5rem;
-        height: 1.5rem;
-        border: none;
-        background: transparent;
-        border-radius: var(--mcp-radius-sm);
-        cursor: pointer;
-        color: var(--mcp-color-ghost-foreground);
-        transition: all var(--mcp-transition-fast);
-      }
-
-      .icon-btn:hover {
-        background: var(--mcp-color-border);
-        color: var(--mcp-color-foreground);
-      }
-
-      .icon-btn svg {
-        width: 0.875rem;
-        height: 0.875rem;
-        stroke: currentColor;
-        stroke-width: 2;
-        fill: none;
-      }
-
       .chevron {
         transition: transform var(--mcp-transition-fast);
       }
@@ -144,20 +136,12 @@ export class McpToolCall extends LitElement {
         display: block;
       }
 
-      pre {
-        margin: 0;
-        padding: var(--mcp-space-3);
-        background: var(--mcp-color-ghost);
-        border-radius: var(--mcp-radius-md);
-        font-family: var(--mcp-font-family-mono);
-        font-size: var(--mcp-font-size-xs);
-        overflow-x: auto;
-        white-space: pre-wrap;
-        word-break: break-word;
+      mcp-code {
+        --mcp-font-size-sm: var(--mcp-font-size-xs);
       }
 
-      .error-output {
-        color: var(--mcp-color-error);
+      mcp-code.error-output {
+        --mcp-color-foreground: var(--mcp-color-error);
       }
     `
   ];
@@ -191,7 +175,14 @@ export class McpToolCall extends LitElement {
     return `${(this.duration / 1000).toFixed(2)}s`;
   }
 
-  private async _copyToClipboard(text: string) {
+  private async _copyToClipboard(text: string, type: 'input' | 'output') {
+    // Emit event so parent can handle (e.g., show toast)
+    this.dispatchEvent(new CustomEvent('mcp-copy', {
+      detail: { content: text, type },
+      bubbles: true,
+      composed: true,
+    }));
+
     try {
       await navigator.clipboard.writeText(text);
     } catch (err) {
@@ -207,51 +198,65 @@ export class McpToolCall extends LitElement {
 
     return html`
       <div class="tool-call">
-        <div class="header">
+        <div class="header" part="header">
           <span class=${classMap({ 'status-icon': true, [`status-${this.status}`]: true })}>
-            ${this._statusIcon}
+            <slot name="icon">${this._statusIcon}</slot>
           </span>
-          <span class="tool-name">${this.name}</span>
+          <span class="tool-name" part="title">${this.name}</span>
           ${this.duration ? html`<span class="duration">${this._formatDuration()}</span>` : nothing}
+          <slot name="header-end"></slot>
         </div>
 
         ${hasInput ? html`
-          <div class="section">
+          <div class="section" part="section">
             <div class="section-header" @click=${() => this._inputOpen = !this._inputOpen}>
               <span class="section-title">Input</span>
               <div class="section-actions">
-                <button class="icon-btn" @click=${(e: Event) => { e.stopPropagation(); this._copyToClipboard(inputJson); }}>
+                <mcp-icon-button
+                  variant="ghost"
+                  size="sm"
+                  label="Copy input"
+                  @click=${(e: Event) => { e.stopPropagation(); this._copyToClipboard(inputJson, 'input'); }}
+                >
                   <svg viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                </button>
+                </mcp-icon-button>
                 <svg class=${classMap({ chevron: true, open: this._inputOpen })} viewBox="0 0 24 24" style="width:1rem;height:1rem;stroke:currentColor;stroke-width:2;fill:none;">
                   <path d="M6 9l6 6 6-6"/>
                 </svg>
               </div>
             </div>
-            <div class=${classMap({ 'section-content': true, open: this._inputOpen })}>
-              <pre>${inputJson}</pre>
+            <div class=${classMap({ 'section-content': true, open: this._inputOpen })} part="content">
+              <mcp-code language="json" .code=${inputJson} .copyable=${false}></mcp-code>
             </div>
           </div>
         ` : nothing}
 
         ${hasOutput ? html`
-          <div class="section">
+          <div class="section" part="section">
             <div class="section-header" @click=${() => this._outputOpen = !this._outputOpen}>
               <span class="section-title">${this.error ? 'Error' : 'Output'}</span>
               <div class="section-actions">
-                <button class="icon-btn" @click=${(e: Event) => { e.stopPropagation(); this._copyToClipboard(outputJson); }}>
+                <mcp-icon-button
+                  variant="ghost"
+                  size="sm"
+                  label="Copy output"
+                  @click=${(e: Event) => { e.stopPropagation(); this._copyToClipboard(outputJson, 'output'); }}
+                >
                   <svg viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                </button>
+                </mcp-icon-button>
                 <svg class=${classMap({ chevron: true, open: this._outputOpen })} viewBox="0 0 24 24" style="width:1rem;height:1rem;stroke:currentColor;stroke-width:2;fill:none;">
                   <path d="M6 9l6 6 6-6"/>
                 </svg>
               </div>
             </div>
-            <div class=${classMap({ 'section-content': true, open: this._outputOpen })}>
-              <pre class=${this.error ? 'error-output' : ''}>${outputJson}</pre>
+            <div class=${classMap({ 'section-content': true, open: this._outputOpen })} part="content">
+              <mcp-code class=${this.error ? 'error-output' : ''} language="json" .code=${outputJson} .copyable=${false}></mcp-code>
             </div>
           </div>
         ` : nothing}
+
+        <!-- Custom sections slot -->
+        <slot name="sections"></slot>
       </div>
     `;
   }

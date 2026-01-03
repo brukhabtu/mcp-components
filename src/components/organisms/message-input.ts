@@ -25,6 +25,8 @@ export class McpMessageInput extends LitElement {
     css`
       :host {
         display: block;
+        max-width: 100%;
+        overflow: hidden;
       }
 
       .container {

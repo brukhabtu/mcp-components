@@ -2,6 +2,7 @@ import { LitElement, html, css, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { baseStyles } from '../../styles/index.js';
+import '../atoms/icon-button.js';
 
 export type ToastVariant = 'info' | 'success' | 'warning' | 'error';
 export type ToastPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center';
@@ -20,7 +21,7 @@ const iconPaths: Record<ToastVariant, string> = {
  * @slot icon - Custom icon (overrides default variant icon)
  * @slot action - Optional action button
  *
- * @fires mcp-dismiss - When the toast is dismissed
+ * @fires mcp-close - When the toast is dismissed
  *
  * @csspart container - The toast container
  * @csspart icon - The icon container
@@ -114,37 +115,8 @@ export class McpToast extends LitElement {
         color: var(--mcp-color-ghost-foreground);
       }
 
-      .close-btn {
+      mcp-icon-button {
         flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 1.5rem;
-        height: 1.5rem;
-        border: none;
-        background: transparent;
-        border-radius: var(--mcp-radius-sm);
-        cursor: pointer;
-        color: var(--mcp-color-ghost-foreground);
-        transition: all var(--mcp-transition-fast);
-      }
-
-      .close-btn:hover {
-        background: var(--mcp-color-ghost);
-        color: var(--mcp-color-foreground);
-      }
-
-      .close-btn:focus-visible {
-        outline: none;
-        box-shadow: 0 0 0 3px var(--mcp-color-primary-muted);
-      }
-
-      .close-btn svg {
-        width: 1rem;
-        height: 1rem;
-        stroke: currentColor;
-        stroke-width: 2;
-        fill: none;
       }
 
       .action {
@@ -178,7 +150,7 @@ export class McpToast extends LitElement {
   private _dismiss() {
     this._exiting = true;
     setTimeout(() => {
-      this.dispatchEvent(new CustomEvent('mcp-dismiss', { bubbles: true, composed: true }));
+      this.dispatchEvent(new CustomEvent('mcp-close', { bubbles: true, composed: true }));
     }, 200);
   }
 
@@ -205,9 +177,15 @@ export class McpToast extends LitElement {
           </div>
         </div>
         ${this.dismissible ? html`
-          <button class="close-btn" part="close" @click=${this._dismiss} aria-label="Dismiss">
+          <mcp-icon-button
+            part="close"
+            variant="ghost"
+            size="sm"
+            label="Dismiss"
+            @click=${this._dismiss}
+          >
             <svg viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
-          </button>
+          </mcp-icon-button>
         ` : nothing}
       </div>
     `;

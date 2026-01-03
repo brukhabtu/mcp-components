@@ -100,6 +100,9 @@ export class McpMessage extends LitElement {
         line-height: var(--mcp-line-height-normal);
         word-wrap: break-word;
         overflow-wrap: break-word;
+        word-break: break-word;
+        max-width: 100%;
+        overflow: hidden;
       }
 
       /* Variant: default */

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scroll Tests</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    .test { padding: 0.5rem; margin: 0.25rem 0; border-radius: 4px; }
+    .pass { background: #d4edda; color: #155724; }
+    .fail { background: #f8d7da; color: #721c24; }
+    .pending { background: #fff3cd; color: #856404; }
+    button { padding: 0.5rem 1rem; margin: 0.5rem 0; cursor: pointer; }
+    #output { margin-top: 1rem; }
+    .summary { font-weight: bold; padding: 1rem; margin-top: 1rem; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>🧪 Scroll Behavior Tests</h1>
+  <p>These tests verify the scroll fixes in the chat app.</p>
+
+  <button onclick="runTests()">Run All Tests</button>
+  <button onclick="window.open('/', '_blank')">Open Chat App</button>
+
+  <div id="output"></div>
+
+  <script>
+    const output = document.getElementById('output');
+    let passed = 0, failed = 0;
+
+    function log(name, success, detail = '') {
+      const div = document.createElement('div');
+      div.className = `test ${success ? 'pass' : 'fail'}`;
+      div.textContent = `${success ? '✓' : '✗'} ${name}${detail ? ': ' + detail : ''}`;
+      output.appendChild(div);
+      success ? passed++ : failed++;
+    }
+
+    async function runTests() {
+      output.innerHTML = '<div class="test pending">Running tests...</div>';
+      passed = 0;
+      failed = 0;
+
+      // Open the app in an iframe
+      const iframe = document.createElement('iframe');
+      iframe.src = '/';
+      iframe.style.cssText = 'width: 100%; height: 500px; border: 1px solid #ccc; margin: 1rem 0;';
+      output.innerHTML = '';
+      output.appendChild(iframe);
+
+      // Wait for iframe to load
+      await new Promise(resolve => {
+        iframe.onload = () => setTimeout(resolve, 1000);
+      });
+
+      const doc = iframe.contentDocument;
+      const win = iframe.contentWindow;
+      const chatApp = win.chatApp;
+
+      // Helper to add messages
+      function addMessage(text, isUser = false) {
+        const messages = doc.getElementById('messages');
+        const msg = doc.createElement('mcp-message');
+        msg.setAttribute('align', isUser ? 'end' : 'start');
+        msg.setAttribute('variant', isUser ? 'bubble' : 'ghost');
+        msg.textContent = text;
+        messages.appendChild(msg);
+        doc.getElementById('welcomeScreen').style.display = 'none';
+      }
+
+      function addManyMessages(count) {
+        for (let i = 0; i < count; i++) {
+          addMessage(`Message ${i + 1}: ${'Lorem ipsum dolor sit amet. '.repeat(3)}`, i % 2 === 0);
+        }
+      }
+
+      try {
+        // Test 1: Initial state
+        log('ChatApp exists', !!chatApp);
+        log('isUserScrolledUp initialized', chatApp?.isUserScrolledUp === false);
+
+        // Test 2: Check CSS properties
+        const chatContainer = doc.getElementById('chatContainer');
+        const messages = doc.getElementById('messages');
+        const typingWrapper = doc.querySelector('.typing-wrapper');
+        const scrollBtn = doc.getElementById('scrollToBottom');
+
+        const containerStyles = win.getComputedStyle(chatContainer);
+        const messagesStyles = win.getComputedStyle(messages);
+        const typingStyles = win.getComputedStyle(typingWrapper);
+
+        log('chat-container has justify-content: flex-end',
+          containerStyles.justifyContent === 'flex-end');
+
+        log('chat-container has position: relative',
+          containerStyles.position === 'relative');
+
+        log('#messages overflow is not hidden',
+          messagesStyles.overflow !== 'hidden',
+          `got: ${messagesStyles.overflow}`);
+
+        log('typing-wrapper has position: sticky',
+          typingStyles.position === 'sticky');
+
+        log('scroll-to-bottom button exists', !!scrollBtn);
+        log('scroll-to-bottom button hidden initially',
+          !scrollBtn?.classList.contains('visible'));
+
+        // Test 3: Scroll behavior
+        addManyMessages(20);
+        chatApp.scrollToBottom(true);
+        await new Promise(r => setTimeout(r, 200));
+
+        log('isUserScrolledUp false when at bottom', !chatApp.isUserScrolledUp);
+
+        // Scroll to top
+        chatContainer.scrollTop = 0;
+        await new Promise(r => setTimeout(r, 200));
+
+        log('isUserScrolledUp true when scrolled up', chatApp.isUserScrolledUp);
+        log('scroll-to-bottom button visible when scrolled up',
+          scrollBtn?.classList.contains('visible'));
+
+        // Test smart auto-scroll
+        const scrollBefore = chatContainer.scrollTop;
+        chatApp.scrollToBottom(); // non-forced
+        await new Promise(r => setTimeout(r, 100));
+
+        log('smart auto-scroll respects user position',
+          chatContainer.scrollTop === scrollBefore,
+          `scroll didn't change from ${scrollBefore}`);
+
+        // Test force scroll
+        chatApp.scrollToBottom(true);
+        await new Promise(r => setTimeout(r, 200));
+
+        const isNearBottom = chatContainer.scrollHeight - chatContainer.scrollTop - chatContainer.clientHeight < 100;
+        log('force scroll works', isNearBottom);
+        log('isUserScrolledUp reset after force scroll', !chatApp.isUserScrolledUp);
+
+        // Test button click
+        chatContainer.scrollTop = 0;
+        await new Promise(r => setTimeout(r, 200));
+
+        scrollBtn?.click();
+        await new Promise(r => setTimeout(r, 200));
+
+        const isAtBottomAfterClick = chatContainer.scrollHeight - chatContainer.scrollTop - chatContainer.clientHeight < 100;
+        log('button click scrolls to bottom', isAtBottomAfterClick);
+        log('button hidden after click', !scrollBtn?.classList.contains('visible'));
+
+      } catch (err) {
+        log('Test error', false, err.message);
+      }
+
+      // Summary
+      const summary = document.createElement('div');
+      summary.className = `summary ${failed === 0 ? 'pass' : 'fail'}`;
+      summary.textContent = `${passed} passed, ${failed} failed`;
+      output.appendChild(summary);
+    }
+  </script>
+</body>
+</html>

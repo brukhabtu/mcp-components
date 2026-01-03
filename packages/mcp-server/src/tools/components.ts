@@ -84,7 +84,13 @@ export function generateComponent(
   // Build slot content
   const slotContent = slots
     ? Object.entries(slots)
-        .map(([name, content]) => `<span slot="${name}">${content}</span>`)
+        .map(([name, content]) => {
+          // Default slot doesn't need slot attribute
+          if (name === 'default' || name === '') {
+            return `<div>${content}</div>`;
+          }
+          return `<div slot="${name}">${content}</div>`;
+        })
         .join('\n')
     : '';
 
@@ -124,11 +130,10 @@ export function generatePage(
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="/">
   <title>${escapeHtml(title)}</title>
-  <script type="module">
-    // Import all MCP components
-    import 'https://unpkg.com/@mcp/ui-components/dist/index.js';
-  </script>
+  <link rel="stylesheet" href="/styles/design-tokens.css">
+  <script type="module" src="/bundle/mcp-components.esm.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {

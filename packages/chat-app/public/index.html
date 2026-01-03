@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Chat</title>
+  <!-- Design tokens CSS -->
+  <link rel="stylesheet" href="/styles/design-tokens.css">
+  <!-- Browser bundle with all components -->
+  <script type="module" src="/bundle/mcp-components.esm.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: var(--mcp-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+      background: var(--mcp-color-background);
+      color: var(--mcp-color-foreground);
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      width: 100%;
+      max-width: 100vw;
+    }
+
+    /* Layout - three panel structure */
+    .app-layout {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      width: 100%;
+      max-width: 100%;
+      min-height: 0;
+    }
+
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+      width: 100%;
+      /* Center panel should take remaining space */
+      position: relative;
+    }
+
+    /* Left Sidebar - persistent on desktop */
+    .left-sidebar {
+      width: 0;
+      min-width: 0;
+      flex-shrink: 0;
+      background: var(--mcp-color-ghost);
+      border-right: 1px solid var(--mcp-color-border);
+      overflow: hidden;
+      transition: width var(--mcp-transition-normal);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Desktop: always show sidebar */
+    @media (min-width: 768px) {
+      .left-sidebar {
+        width: 280px;
+        min-width: 280px;
+      }
+
+      /* Hide hamburger menu on desktop */
+      #menuToggle {
+        display: none;
+      }
+
+      /* Hide the drawer component on desktop (we use sidebar instead) */
+      #mainDrawer {
+        display: none;
+      }
+    }
+
+    /* Mobile: use drawer instead */
+    @media (max-width: 767px) {
+      .left-sidebar {
+        display: none;
+      }
+    }
+
+    .sidebar-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--mcp-space-4);
+    }
+
+    .sidebar-header {
+      padding: var(--mcp-space-3) var(--mcp-space-4);
+      border-bottom: 1px solid var(--mcp-color-border);
+      font-weight: var(--mcp-font-weight-semibold);
+      display: flex;
+      align-items: center;
+      gap: var(--mcp-space-2);
+    }
+
+    /* Header */
+    .header {
+      padding: var(--mcp-space-2) var(--mcp-space-4);
+      border-bottom: 1px solid var(--mcp-color-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--mcp-color-background);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      gap: var(--mcp-space-3);
+      flex-shrink: 0;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: var(--mcp-space-3);
+      flex-shrink: 0;
+    }
+
+
+    .brand {
+      font-weight: var(--mcp-font-weight-semibold);
+      font-size: var(--mcp-font-size-lg);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: var(--mcp-space-2);
+    }
+
+    .model-indicator {
+      display: flex;
+      align-items: center;
+      gap: var(--mcp-space-2);
+      padding: var(--mcp-space-1) var(--mcp-space-3);
+      background: var(--mcp-color-ghost);
+      border-radius: var(--mcp-radius-full);
+      font-size: var(--mcp-font-size-sm);
+      color: var(--mcp-color-ghost-foreground);
+      cursor: pointer;
+      transition: background var(--mcp-transition-fast);
+    }
+
+    .model-indicator:hover {
+      background: var(--mcp-color-secondary);
+    }
+
+    .model-indicator svg {
+      width: 12px;
+      height: 12px;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 767px) {
+      .model-indicator {
+        display: none;
+      }
+    }
+
+    /* Chat Area */
+    .chat-container {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: var(--mcp-space-4);
+      max-width: 768px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      position: relative;
+    }
+
+    #messages {
+      display: flex;
+      flex-direction: column;
+      gap: var(--mcp-space-3);
+      width: 100%;
+    }
+
+    /* Ensure message content doesn't overflow */
+    #messages mcp-message {
+      max-width: 100%;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    /* Tool containers - hidden when details off */
+    body:not(.show-details) .tool-container {
+      display: none;
+    }
+
+    .tool-container {
+      margin-left: 2.5rem;
+      max-width: calc(100% - 2.5rem);
+      overflow: hidden;
+    }
+
+    /* Rendered components */
+    .rendered-component {
+      margin-left: 2.5rem;
+      margin-top: var(--mcp-space-2);
+      max-width: calc(100% - 2.5rem);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--mcp-space-2);
+      align-items: flex-start;
+    }
+
+    /* Tool Approval Card */
+    .tool-approval {
+      margin-left: 2.5rem;
+      margin-bottom: var(--mcp-space-3);
+      max-width: calc(100% - 2.5rem);
+    }
+
+    /* Typing Indicator - sticky at bottom to prevent scroll jumps */
+    .typing-wrapper {
+      display: none;
+      position: sticky;
+      bottom: 0;
+      background: var(--mcp-color-background);
+      padding-top: var(--mcp-space-2);
+      margin-top: auto;
+      z-index: 5;
+    }
+
+    .typing-wrapper.visible {
+      display: block;
+    }
+
+    /* Composer */
+    .composer {
+      padding: var(--mcp-space-3) var(--mcp-space-4);
+      border-top: 1px solid var(--mcp-color-border);
+      background: var(--mcp-color-background);
+      flex-shrink: 0;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    /* Stop generation button */
+    .stop-button {
+      display: none;
+    }
+
+    .stop-button.visible {
+      display: flex;
+    }
+
+    /* Composer states */
+    .composer.generating .send-btn {
+      display: none;
+    }
+
+    .composer.generating .stop-button {
+      display: flex;
+    }
+
+    .composer-inner {
+      max-width: 768px;
+      margin: 0 auto;
+      display: flex;
+      gap: var(--mcp-space-3);
+      align-items: flex-end;
+      width: 100%;
+    }
+
+    .composer mcp-message-input {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* Welcome state */
+    .welcome {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--mcp-color-ghost-foreground);
+    }
+
+    .welcome mcp-avatar {
+      margin-bottom: var(--mcp-space-4);
+    }
+
+    .welcome h1 {
+      font-size: var(--mcp-font-size-xl);
+      font-weight: var(--mcp-font-weight-semibold);
+      color: var(--mcp-color-foreground);
+      margin-bottom: var(--mcp-space-2);
+    }
+
+    .welcome p {
+      font-size: var(--mcp-font-size-sm);
+      max-width: 400px;
+      margin: 0 auto;
+      line-height: var(--mcp-line-height-relaxed);
+    }
+
+    /* Drawer layout */
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--mcp-space-4);
+    }
+
+    .drawer-footer {
+      border-top: 1px solid var(--mcp-color-border);
+      padding: var(--mcp-space-4);
+      background: var(--mcp-color-ghost);
+    }
+
+    .drawer-footer .drawer-section {
+      margin-bottom: 0;
+    }
+
+    /* Drawer menu sections */
+    .drawer-section {
+      margin-bottom: var(--mcp-space-4);
+    }
+
+    .drawer-section-title {
+      font-size: var(--mcp-font-size-xs);
+      font-weight: var(--mcp-font-weight-semibold);
+      text-transform: uppercase;
+      color: var(--mcp-color-ghost-foreground);
+      margin-bottom: var(--mcp-space-2);
+      padding: 0 var(--mcp-space-1);
+      letter-spacing: 0.05em;
+    }
+
+    .drawer-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--mcp-space-2) var(--mcp-space-1);
+      font-size: var(--mcp-font-size-sm);
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--mcp-space-1);
+    }
+
+    .chat-item {
+      padding: var(--mcp-space-3);
+      border-radius: var(--mcp-radius-md);
+      cursor: pointer;
+      position: relative;
+      transition: background var(--mcp-transition-fast);
+    }
+
+    .chat-item:hover {
+      background: var(--mcp-color-ghost);
+    }
+
+    .chat-item.active {
+      background: var(--mcp-color-primary-muted);
+    }
+
+    .chat-item-title {
+      font-size: var(--mcp-font-size-sm);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-right: var(--mcp-space-4);
+    }
+
+    .chat-item-time {
+      font-size: var(--mcp-font-size-xs);
+      color: var(--mcp-color-ghost-foreground);
+      margin-top: var(--mcp-space-1);
+    }
+
+    .chat-item-delete {
+      position: absolute;
+      top: var(--mcp-space-2);
+      right: var(--mcp-space-2);
+      background: none;
+      border: none;
+      color: var(--mcp-color-ghost-foreground);
+      cursor: pointer;
+      padding: var(--mcp-space-1);
+      font-size: var(--mcp-font-size-base);
+      line-height: 1;
+      opacity: 0;
+      transition: opacity var(--mcp-transition-fast);
+    }
+
+    .chat-item:hover .chat-item-delete {
+      opacity: 1;
+    }
+
+    .chat-item-delete:hover {
+      color: var(--mcp-color-error);
+    }
+
+    .no-chats {
+      text-align: center;
+      color: var(--mcp-color-ghost-foreground);
+      font-size: var(--mcp-font-size-sm);
+      padding: var(--mcp-space-6) var(--mcp-space-4);
+    }
+
+    .history-search {
+      margin-bottom: var(--mcp-space-3);
+    }
+
+    .history-search mcp-input {
+      width: 100%;
+    }
+
+    .chat-item.hidden {
+      display: none;
+    }
+
+    /* Right Panel - Context/Details */
+    .right-panel {
+      width: 0;
+      min-width: 0;
+      flex-shrink: 0;
+      background: var(--mcp-color-ghost);
+      border-left: 1px solid var(--mcp-color-border);
+      overflow: hidden;
+      transition: width var(--mcp-transition-normal);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .right-panel.open {
+      width: min(400px, 40vw);
+    }
+
+    @media (max-width: 767px) {
+      .right-panel.open {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        max-width: 100%;
+        z-index: 20;
+      }
+    }
+
+    .right-panel-header {
+      padding: var(--mcp-space-3) var(--mcp-space-4);
+      border-bottom: 1px solid var(--mcp-color-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: var(--mcp-font-weight-semibold);
+      font-size: var(--mcp-font-size-sm);
+    }
+
+    .right-panel-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--mcp-space-4);
+    }
+
+    .raw-message {
+      margin-bottom: var(--mcp-space-4);
+      padding: var(--mcp-space-3);
+      background: var(--mcp-color-background);
+      border-radius: var(--mcp-radius-lg);
+      font-family: var(--mcp-font-family-mono, monospace);
+      font-size: var(--mcp-font-size-xs);
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .raw-message.user {
+      border-left: 3px solid var(--mcp-color-primary);
+    }
+
+    .raw-message.server {
+      border-left: 3px solid var(--mcp-color-success);
+    }
+
+    .raw-message-type {
+      font-weight: var(--mcp-font-weight-semibold);
+      margin-bottom: var(--mcp-space-2);
+      text-transform: uppercase;
+      font-size: var(--mcp-font-size-2xs);
+      color: var(--mcp-color-ghost-foreground);
+    }
+
+    /* Scroll to bottom button */
+    .scroll-to-bottom {
+      position: absolute;
+      bottom: var(--mcp-space-4);
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity var(--mcp-transition-fast), visibility var(--mcp-transition-fast);
+      z-index: 5;
+    }
+
+    .scroll-to-bottom.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Keyboard shortcut hints */
+    .shortcut-hint {
+      font-size: var(--mcp-font-size-xs);
+      color: var(--mcp-color-ghost-foreground);
+      display: flex;
+      align-items: center;
+      gap: var(--mcp-space-2);
+    }
+
+    .shortcut-hint kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 var(--mcp-space-1);
+      background: var(--mcp-color-ghost);
+      border: 1px solid var(--mcp-color-border);
+      border-radius: var(--mcp-radius-sm);
+      font-family: var(--mcp-font-family-mono, monospace);
+      font-size: var(--mcp-font-size-2xs);
+    }
+
+    @media (max-width: 767px) {
+      .shortcut-hint {
+        display: none;
+      }
+    }
+
+    /* Message actions */
+    .message-actions {
+      position: absolute;
+      top: var(--mcp-space-1);
+      right: var(--mcp-space-1);
+      display: flex;
+      gap: var(--mcp-space-1);
+      opacity: 0;
+      transition: opacity var(--mcp-transition-fast);
+    }
+
+    .message-wrapper {
+      position: relative;
+    }
+
+    .message-wrapper:hover .message-actions {
+      opacity: 1;
+    }
+
+    .message-actions mcp-icon-button {
+      --mcp-icon-button-size: 28px;
+    }
+
+    /* Feedback toast for copy */
+    .copy-feedback {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--mcp-color-foreground);
+      color: var(--mcp-color-background);
+      padding: var(--mcp-space-2) var(--mcp-space-4);
+      border-radius: var(--mcp-radius-md);
+      font-size: var(--mcp-font-size-sm);
+      opacity: 0;
+      transition: opacity var(--mcp-transition-fast);
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .copy-feedback.visible {
+      opacity: 1;
+    }
+
+    /* Swipe gesture indicator */
+    .swipe-indicator {
+      position: fixed;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 60px;
+      background: var(--mcp-color-primary-muted);
+      border-radius: 0 var(--mcp-radius-full) var(--mcp-radius-full) 0;
+      opacity: 0;
+      transition: opacity var(--mcp-transition-fast);
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    @media (min-width: 768px) {
+      .swipe-indicator {
+        display: none;
+      }
+    }
+
+    .swipe-indicator.visible {
+      opacity: 1;
+    }
+
+  </style>
+</head>
+<body data-theme="anthropic">
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <mcp-icon-button id="menuToggle" variant="ghost" size="sm" label="Open menu">
+        <svg viewBox="0 0 24 24">
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </mcp-icon-button>
+      <mcp-avatar name="Claude" size="sm"></mcp-avatar>
+      <span class="brand">Claude</span>
+      <div class="model-indicator" id="modelIndicator" title="Current model">
+        <span>Sonnet 3.5</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+    </div>
+    <div class="header-right">
+      <mcp-badge id="connectionBadge" variant="warning" size="sm">Connecting...</mcp-badge>
+    </div>
+  </header>
+
+  <!-- Main Drawer (left sidebar - mobile only) -->
+  <mcp-drawer id="mainDrawer" title="Menu" position="left">
+    <div class="drawer-body">
+      <!-- New Chat Button -->
+      <mcp-button id="newChatBtn" variant="primary" style="width: 100%; margin-bottom: var(--mcp-space-4);">
+        <svg slot="prefix" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        New Chat
+      </mcp-button>
+
+      <!-- Search -->
+      <div class="history-search">
+        <mcp-input id="drawerSearch" placeholder="Search chats..." size="sm">
+          <svg slot="prefix" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </mcp-input>
+      </div>
+
+      <!-- Chat History Section -->
+      <div class="drawer-section">
+        <div class="drawer-section-title">History</div>
+        <div class="history-list" id="chatList"></div>
+      </div>
+    </div>
+
+    <div class="drawer-footer">
+      <!-- Settings Section -->
+      <div class="drawer-section">
+        <div class="drawer-section-title">Settings</div>
+        <div class="drawer-option">
+          <span>Show Details</span>
+          <mcp-switch id="detailsToggle" size="sm"></mcp-switch>
+        </div>
+        <div class="drawer-option">
+          <span>Dark Mode</span>
+          <mcp-switch id="themeToggle" size="sm"></mcp-switch>
+        </div>
+        <div class="drawer-option">
+          <span>Raw Messages</span>
+          <mcp-switch id="rawToggle" size="sm"></mcp-switch>
+        </div>
+      </div>
+    </div>
+  </mcp-drawer>
+
+  <div class="app-layout">
+    <!-- Left Sidebar (desktop only) -->
+    <aside class="left-sidebar">
+      <div class="sidebar-header">
+        <mcp-avatar name="Claude" size="sm"></mcp-avatar>
+        <span>Claude</span>
+      </div>
+      <div class="sidebar-content">
+        <!-- New Chat Button -->
+        <mcp-button id="newChatBtnSidebar" variant="primary" style="width: 100%; margin-bottom: var(--mcp-space-4);">
+          <svg slot="prefix" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          New Chat
+        </mcp-button>
+
+        <!-- Search -->
+        <div class="history-search">
+          <mcp-input id="sidebarSearch" placeholder="Search chats..." size="sm">
+            <svg slot="prefix" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </mcp-input>
+        </div>
+
+        <!-- Chat History -->
+        <div class="drawer-section">
+          <div class="drawer-section-title">History</div>
+          <div class="history-list" id="chatListSidebar"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Chat Area -->
+    <div class="main-content">
+      <main class="chat-container" id="chatContainer">
+        <div class="welcome" id="welcomeScreen">
+          <mcp-avatar name="Claude" size="xl"></mcp-avatar>
+          <h1>Hello! I'm Claude.</h1>
+          <p>I'm an AI assistant created by Anthropic. I can help with analysis, coding, writing, and more. How can I assist you today?</p>
+        </div>
+
+        <!-- Messages will be appended here -->
+        <div id="messages"></div>
+
+        <!-- Typing Indicator -->
+        <div class="typing-wrapper" id="typingIndicator">
+          <mcp-message-typing>
+            <mcp-avatar slot="avatar" name="Claude" size="sm"></mcp-avatar>
+          </mcp-message-typing>
+        </div>
+
+        <!-- Scroll to bottom button -->
+        <mcp-icon-button
+          id="scrollToBottom"
+          class="scroll-to-bottom"
+          variant="secondary"
+          size="sm"
+          label="Scroll to bottom"
+        >
+          <svg viewBox="0 0 24 24">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </mcp-icon-button>
+      </main>
+
+      <!-- Composer -->
+      <footer class="composer">
+        <div class="composer-inner">
+          <mcp-message-input
+            id="messageInput"
+            placeholder="Message Claude..."
+          >
+            <mcp-icon-button
+              id="sendButton"
+              slot="end"
+              variant="primary"
+              size="sm"
+              label="Send message"
+              disabled
+            >
+              <svg viewBox="0 0 24 24">
+                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+              </svg>
+            </mcp-icon-button>
+            <mcp-icon-button
+              id="stopButton"
+              slot="end"
+              class="stop-button"
+              variant="ghost"
+              size="sm"
+              label="Stop generation"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <rect x="6" y="6" width="12" height="12" rx="2"/>
+              </svg>
+            </mcp-icon-button>
+          </mcp-message-input>
+        </div>
+        <div class="shortcut-hint" style="max-width: 768px; margin: var(--mcp-space-2) auto 0; padding: 0 var(--mcp-space-4);">
+          <kbd>Enter</kbd> to send
+          <span style="opacity: 0.5">•</span>
+          <kbd>Shift</kbd>+<kbd>Enter</kbd> for new line
+          <span style="opacity: 0.5">•</span>
+          <kbd>⌘</kbd><kbd>K</kbd> new chat
+        </div>
+      </footer>
+    </div>
+
+    <!-- Right Panel - Context/Details -->
+    <aside class="right-panel" id="rawSidebar">
+      <div class="right-panel-header">
+        <span>Raw Messages</span>
+        <mcp-icon-button id="closeRaw" variant="ghost" size="sm" label="Close">
+          <svg viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </mcp-icon-button>
+      </div>
+      <div class="right-panel-content" id="rawMessages"></div>
+    </aside>
+  </div>
+
+  <!-- Feedback elements -->
+  <div class="copy-feedback" id="copyFeedback">Copied to clipboard</div>
+  <div class="swipe-indicator" id="swipeIndicator"></div>
+
+  <script src="app.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      // ============================================
+      // SCROLL TO BOTTOM BUTTON
+      // ============================================
+      const scrollBtn = document.getElementById('scrollToBottom');
+      const chatContainer = document.getElementById('chatContainer');
+
+      chatContainer.addEventListener('scroll-state-change', (e) => {
+        scrollBtn.classList.toggle('visible', e.detail.isScrolledUp);
+      });
+
+      scrollBtn.addEventListener('click', () => {
+        window.chatApp.scrollToBottom(true);
+        scrollBtn.classList.remove('visible');
+      });
+
+      // ============================================
+      // KEYBOARD SHORTCUTS
+      // ============================================
+      document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+          e.preventDefault();
+          window.chatApp?.clearChat();
+          document.getElementById('messageInput')?.focus();
+        }
+        if (e.key === 'Escape') {
+          document.getElementById('mainDrawer')?.hide?.();
+          document.getElementById('rawSidebar')?.classList.remove('open');
+        }
+      });
+
+      // ============================================
+      // CHAT SEARCH (shared for drawer & sidebar)
+      // ============================================
+      function filterChats(query, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        const lowerQuery = query.toLowerCase();
+        container.querySelectorAll('.chat-item').forEach(item => {
+          const title = item.querySelector('.chat-item-title')?.textContent?.toLowerCase() || '';
+          item.classList.toggle('hidden', lowerQuery !== '' && !title.includes(lowerQuery));
+        });
+      }
+
+      // ============================================
+      // MESSAGE ACTIONS (copy button)
+      // ============================================
+      function showCopyFeedback() {
+        const feedback = document.getElementById('copyFeedback');
+        if (feedback) {
+          feedback.classList.add('visible');
+          setTimeout(() => feedback.classList.remove('visible'), 1500);
+        }
+      }
+
+      function createMessageActions(messageEl) {
+        if (messageEl.closest('.message-wrapper')) return;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'message-wrapper';
+        messageEl.parentNode.insertBefore(wrapper, messageEl);
+        wrapper.appendChild(messageEl);
+
+        const actions = document.createElement('div');
+        actions.className = 'message-actions';
+
+        const copyBtn = document.createElement('mcp-icon-button');
+        copyBtn.setAttribute('variant', 'ghost');
+        copyBtn.setAttribute('size', 'sm');
+        copyBtn.setAttribute('label', 'Copy');
+        copyBtn.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>`;
+        copyBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(messageEl.textContent || '').then(showCopyFeedback);
+        });
+
+        actions.appendChild(copyBtn);
+        wrapper.appendChild(actions);
+      }
+
+      // ============================================
+      // SWIPE GESTURES (mobile)
+      // ============================================
+      function setupSwipeGestures() {
+        const drawer = document.getElementById('mainDrawer');
+        const swipeIndicator = document.getElementById('swipeIndicator');
+        if (!drawer) return;
+
+        let touchStartX = 0, touchStartY = 0, touchCurrentX = 0, isSwiping = false;
+        const EDGE_THRESHOLD = 30, SWIPE_THRESHOLD = 80;
+
+        // Brief indicator on mobile
+        if (window.innerWidth < 768 && swipeIndicator) {
+          setTimeout(() => {
+            swipeIndicator.classList.add('visible');
+            setTimeout(() => swipeIndicator.classList.remove('visible'), 2000);
+          }, 1000);
+        }
+
+        document.addEventListener('touchstart', (e) => {
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+          touchCurrentX = touchStartX;
+          const drawerOpen = drawer.hasAttribute('open') || drawer.open;
+          isSwiping = (touchStartX < EDGE_THRESHOLD && !drawerOpen) || drawerOpen;
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+          if (!isSwiping) return;
+          touchCurrentX = e.touches[0].clientX;
+          const deltaX = touchCurrentX - touchStartX;
+          const deltaY = Math.abs(e.touches[0].clientY - touchStartY);
+          if (deltaY > Math.abs(deltaX)) { isSwiping = false; return; }
+          if (swipeIndicator && deltaX > 20 && touchStartX < EDGE_THRESHOLD) {
+            swipeIndicator.classList.add('visible');
+          }
+        }, { passive: true });
+
+        document.addEventListener('touchend', () => {
+          if (!isSwiping) return;
+          const deltaX = touchCurrentX - touchStartX;
+          const drawerOpen = drawer.hasAttribute('open') || drawer.open;
+          if (deltaX > SWIPE_THRESHOLD && touchStartX < EDGE_THRESHOLD && !drawerOpen) {
+            drawer.show?.() || drawer.setAttribute('open', '');
+          }
+          if (deltaX < -SWIPE_THRESHOLD && drawerOpen) {
+            drawer.hide?.() || drawer.removeAttribute('open');
+          }
+          isSwiping = false;
+          swipeIndicator?.classList.remove('visible');
+        }, { passive: true });
+      }
+
+      // ============================================
+      // SIDEBAR SYNC (desktop)
+      // ============================================
+      function setupSidebarSync() {
+        const chatListSidebar = document.getElementById('chatListSidebar');
+        const newChatBtnSidebar = document.getElementById('newChatBtnSidebar');
+
+        newChatBtnSidebar?.addEventListener('click', () => window.chatApp.clearChat());
+
+        // Patch renderChatList to sync sidebar
+        const original = window.chatApp.renderChatList.bind(window.chatApp);
+        window.chatApp.renderChatList = function() {
+          original();
+          const drawerList = document.getElementById('chatList');
+          if (chatListSidebar && drawerList) {
+            chatListSidebar.innerHTML = drawerList.innerHTML;
+            chatListSidebar.querySelectorAll('.chat-item').forEach(el => {
+              el.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('chat-item-delete')) {
+                  window.chatApp.loadChat(el.dataset.id);
+                }
+              });
+            });
+            chatListSidebar.querySelectorAll('.chat-item-delete').forEach(el => {
+              el.addEventListener('click', (e) => {
+                e.stopPropagation();
+                window.chatApp.deleteChat(el.dataset.id);
+              });
+            });
+          }
+        };
+        window.chatApp.renderChatList();
+      }
+
+      // ============================================
+      // INIT (single DOMContentLoaded)
+      // ============================================
+      document.addEventListener('DOMContentLoaded', () => {
+        // Search inputs
+        document.getElementById('sidebarSearch')?.addEventListener('mcp-input', (e) => {
+          filterChats(e.detail.value, 'chatListSidebar');
+        });
+        document.getElementById('drawerSearch')?.addEventListener('mcp-input', (e) => {
+          filterChats(e.detail.value, 'chatList');
+        });
+
+        // Message actions observer
+        const messagesContainer = document.getElementById('messages');
+        if (messagesContainer) {
+          new MutationObserver((mutations) => {
+            mutations.forEach((m) => m.addedNodes.forEach((node) => {
+              if (node.nodeName === 'MCP-MESSAGE') createMessageActions(node);
+            }));
+          }).observe(messagesContainer, { childList: true, subtree: true });
+
+          messagesContainer.querySelectorAll('mcp-message').forEach(createMessageActions);
+        }
+
+        // Sidebar sync & swipe gestures
+        setupSidebarSync();
+        setupSwipeGestures();
+      });
+    })();
+  </script>
+</body>
+</html>

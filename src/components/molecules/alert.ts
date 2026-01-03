@@ -2,6 +2,7 @@ import { LitElement, html, css, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { baseStyles } from '../../styles/index.js';
+import '../atoms/icon-button.js';
 
 export type AlertVariant = 'info' | 'success' | 'warning' | 'error';
 
@@ -20,7 +21,7 @@ const iconPaths: Record<AlertVariant, string> = {
  * @slot title - Alert title
  * @slot action - Optional action button/link
  *
- * @fires mcp-dismiss - When the dismiss button is clicked
+ * @fires mcp-close - When the dismiss button is clicked
  *
  * @csspart container - The alert container
  * @csspart icon - The icon container
@@ -109,33 +110,13 @@ export class McpAlert extends LitElement {
         margin-top: var(--mcp-space-3);
       }
 
-      .dismiss {
+      mcp-icon-button {
         flex-shrink: 0;
-        padding: var(--mcp-space-1);
-        border: none;
-        background: transparent;
-        cursor: pointer;
-        color: inherit;
         opacity: 0.7;
-        transition: opacity var(--mcp-transition-fast);
-        border-radius: var(--mcp-radius-sm);
       }
 
-      .dismiss:hover {
+      mcp-icon-button:hover {
         opacity: 1;
-      }
-
-      .dismiss:focus-visible {
-        outline: none;
-        box-shadow: 0 0 0 3px var(--mcp-color-primary-muted);
-      }
-
-      .dismiss svg {
-        width: 1rem;
-        height: 1rem;
-        fill: none;
-        stroke: currentColor;
-        stroke-width: 2;
       }
     `
   ];
@@ -145,7 +126,7 @@ export class McpAlert extends LitElement {
   @property({ type: Boolean }) dismissible = false;
 
   private _handleDismiss() {
-    this.dispatchEvent(new CustomEvent('mcp-dismiss', {
+    this.dispatchEvent(new CustomEvent('mcp-close', {
       bubbles: true,
       composed: true,
     }));
@@ -178,11 +159,15 @@ export class McpAlert extends LitElement {
         </div>
 
         ${this.dismissible ? html`
-          <button class="dismiss" part="dismiss" @click=${this._handleDismiss} aria-label="Dismiss">
-            <svg viewBox="0 0 24 24">
-              <path d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+          <mcp-icon-button
+            part="dismiss"
+            variant="ghost"
+            size="sm"
+            label="Dismiss"
+            @click=${this._handleDismiss}
+          >
+            <svg viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+          </mcp-icon-button>
         ` : nothing}
       </div>
     `;
